@@ -7,13 +7,16 @@ from resemblyzer import VoiceEncoder, preprocess_wav
 from scipy.spatial.distance import cosine
 import librosa
 import soundfile as sf
+import os
+from dotenv import load_dotenv
 
 # ==========================
 # CONFIGURATION
 # ==========================
-SUPABASE_URL = "https://nmqdymabetbcubwgnnpa.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tcWR5bWFiZXRiY3Vid2dubnBhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTg5MTM5NSwiZXhwIjoyMDc3NDY3Mzk1fQ.SHIJNUpLkXwiGXg9p6QDerMt-wwhY_j2pMu0Dset_Wg"
+
 BUCKET_NAME = "voice_samples"
+SUPABASE_URL: str = os.getenv("SUPABASE_URL")
+SUPABASE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 encoder = VoiceEncoder()
