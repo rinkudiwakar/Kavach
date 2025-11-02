@@ -1,0 +1,25 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+supabase
+celery[redis]
+redis
+
+# Audio + AI
+resemblyzer
+pvporcupine
+pvrhino
+
+# Audio processing essentials
+numpy
+soundfile
+ffmpeg-python
+librosa
+torch
+torchaudio
+
+# File upload & storage
+python-multipart
+aiofiles
+psycopg2-binary
