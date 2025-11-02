@@ -99,7 +99,7 @@ def ensure_wav16_local(storage_path: str) -> str:
 # ===============================================
 # 4️⃣ RESEMBLYZER UTILITIES
 # ===============================================
-def get_embedding_from_local_wav(local_wav_path: str):
+def extract_embedding(local_wav_path: str):
     """
     Extract and normalize Resemblyzer embedding.
     Returns: numpy array of shape (256,)
