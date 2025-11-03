@@ -1,8 +1,11 @@
 import React from "react";
 import { Lock, Shield, Users, AlertTriangle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="dashboard">
       {/* Header */}
@@ -13,6 +16,14 @@ const Dashboard = () => {
             <p className="subtitle">
               Secure your home with biometric voice authentication
             </p>
+
+            {/* Get Started Button */}
+            <button
+              className="get-started-btn"
+              onClick={() => navigate("/")}
+            >
+              Get Started
+            </button>
           </div>
           <div className="lock-status">
             <Lock className="lock-icon" />
@@ -23,7 +34,6 @@ const Dashboard = () => {
 
       {/* Main */}
       <main className="main">
-        {/* Stats Section */}
         <div className="stats-grid">
           <div className="stat-card">
             <Users className="stat-icon" />
@@ -47,7 +57,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Action Section */}
         <div className="action-grid">
           <div className="action-card">
             <h4>Register Family Members</h4>
@@ -63,7 +72,9 @@ const Dashboard = () => {
 
           <div className="action-card">
             <h4>Unlock Keyword</h4>
-            <p>Current phrase: <strong>"Hi Di, open the door"</strong></p>
+            <p>
+              Current phrase: <strong>"Hi Di, open the door"</strong>
+            </p>
             <button className="secondary-btn">Change Keyword</button>
           </div>
 
