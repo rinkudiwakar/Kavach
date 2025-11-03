@@ -1,0 +1,197 @@
+# Voice-Auth Door System — System Design & Flowchart
+
+> A single-page reference for your team: architecture, component responsibilities, data flows, flowchart & sequence diagrams, DB design, deployment notes, and an actionable task checklist.
+
+---
+
+## 1. Project summary (one line)
+
+A Raspberry Pi–hosted door-unlock system that uses Porcupine for wake-word, Resemblyzer for speaker verification, and Rhino for intent/keyword verification — with admin override, family management, retry/alert policies, and a web dashboard.
+
+## 2. High-level architecture (components)
+
+* **Door Device (Raspberry Pi)**
+
+  * Mic array, speaker, optional camera, relay to door lock
+  * Local processes: Porcupine (wake-word), Rhino (intent/keyword), Resemblyzer embeddings & matching, local decision engine
+* **Edge/Server**
+
+  * (Optional) Central server for backups, push notification broker, user management, admin UI and analytics. Can be hosted in cloud or local home-server.
+* **Web Dashboard / Admin UI**
+
+  * Family admin: add/remove members, upload voice samples, view logs, remotely open door, set notification recipients
+* **Mobile / Push Notification Service**
+
+  * To deliver alerts (Firebase / Pushy / OneSignal) to family members when thresholds met
+* **Database**
+
+  * Users, voice embeddings, metadata (names, phone/email for notifications), logs (unlock attempts), admin settings
+* **Optional**: Camera capture & cloud storage for suspicious attempts
+
+## 3. Dataflow (short)
+
+1. Pi listens with Porcupine for wake-word ("hey kavach").
+2. On wake: record short phrase (3–4s) -> pass audio to local Resemblyzer for speaker verification against stored embeddings.
+3. If speaker verified -> pass audio to Rhino to detect/verify keyword intent (match expected keyword phrase).
+4. If both succeed -> unlock and log entry with timestamp and speaker-id.
+5. If failure -> increment attempt counter, send appropriate messages (Access Denied, admin alerts after thresholds), record logs and optionally camera snapshot.
+
+## 4. Flowchart (Mermaid)
+
+```mermaid
+flowchart TD
+  A[Idle — Listen via Porcupine]
+  A -->|Wake word detected| B[Record audio snippet]
+  B --> C{Speaker verification (Resemblyzer)}
+  C -- Verified --> D{Intent/keyword verification (Rhino)}
+  C -- Not verified --> E[Increment voice-fail counter]
+  E --> F{counter >= 3?}
+  F -- No --> G[Respond: Access Denied]
+  F -- Yes --> H[Notify family admins / unlock via admin web option]
+  D -- Verified --> I[Unlock door + Log + Notify success]
+  D -- Not verified --> J[Increment keyword-fail counter]
+  J --> K{counter >= 5?}
+  K -- No --> G
+  K -- Yes --> L[Push notification: unknown person repeatedly trying]
+
+  style A fill:#f9f,stroke:#333,stroke-width:1px
+```
+
+> Note: counters per session and per source (e.g., IP/device) should be stored in DB with TTL.
+
+## 5. Sequence diagram (Mermaid)
+
+```mermaid
+sequenceDiagram
+  participant Pi
+  participant DB
+  participant Rhino
+  participant Resemblyzer
+  participant Dashboard
+  Pi->>Pi: Porcupine detects wake-word
+  Pi->>Pi: Record 3s audio
+  Pi->>Resemblyzer: Embed audio -> compare with stored embeddings
+  Resemblyzer-->>Pi: match score / best-match ID
+  alt speaker match
+    Pi->>Rhino: Send audio for keyword intent verification
+    Rhino-->>Pi: intent match? confidence
+    alt keyword match
+      Pi->>DB: Log success (userID, ts)
+      Pi->>DoorLock: Trigger unlock
+      Pi-->>Dashboard: push event (success)
+    else keyword fail
+      Pi->>DB: Log keyword fail
+      Pi-->>Pi: increment counters
+    end
+  else speaker fail
+    Pi->>DB: Log speaker fail
+    Pi-->>Pi: increment counters
+  end
+  Pi->>DB: If thresholds reached -> Flag and send notification via PushService
+  Dashboard->>DB: Admin can remotely unlock (after auth)
+```
+
+## 6. Database schema (suggested)
+
+* **users**: id, name, phone, email, admin(bool), created_at, active(bool)
+* **embeddings**: id, user_id, embedding_vector (binary/array), created_at, sample_type (normal / keyword)
+* **devices**: id, name, location, last_seen, pi_fingerprint
+* **attempt_logs**: id, ts, device_id, audio_ref, result(enum: success, speaker_fail, keyword_fail, unknown), matched_user_id(null if unknown), confidence, ip
+* **counters**: device_id, timeframe_start, speaker_fail_count, keyword_fail_count
+* **notifications**: id, attempt_log_id, sent_to (user_id/email), status
+
+## 7. Matching & thresholds
+
+* Resemblyzer returns similarity score. Use a conservative threshold first (e.g., 0.75 or test), tune with real samples.
+* Rhino intent confidence threshold must be tuned; accept only if confidence above chosen threshold.
+* Two independent counters: speaker-fails (lockout at 3) -> notify family admin; unknown repeated attempts (5) -> push alert to everyone.
+
+## 8. Onboarding / setup flow (detailed)
+
+1. Admin creates family in Dashboard.
+2. Each member uploads five *normal* audio recordings (varied phrases) — used to build robust speaker embeddings.
+3. Each member records 3 *keyword* samples where they say the chosen keyword phrase. Rhino will use the provided keyword samples and the dashboard will suggest/auto-configure a Rhino intent/keyword rule for that family.
+4. Dashboard/backend will run: generate embeddings (Resemblyzer) for each sample and store them; Rhino config will be created for family keyword(s).
+5. Admin reviews and approves each member -> mark them active. Only active users allowed to unlock.
+6. Option to download a QR code / token for each Pi to pair device to family account.
+
+## 9. Admin controls & web UI features
+
+* Add / remove member; approve new member
+* Upload/replace voice samples
+* Set primary keyword phrase (or per-user keywords)
+* Remote unlock (password protected + 2FA option)
+* View logs: per-user unlock counts, timestamps, failed attempts
+* Notification recipients management and threshold settings
+
+## 10. APIs (REST examples)
+
+* POST /api/family/{id}/members - upload samples
+* POST /api/device/{id}/pair - register device
+* POST /api/device/{id}/log - push attempt log
+* GET /api/family/{id}/logs?from=&to=&user=
+* POST /api/family/{id}/unlock - admin remote unlock (requires admin token)
+
+## 11. Security considerations
+
+* Store embeddings, not raw voice files if possible. If you must store audio for forensics, encrypt at rest.
+* Secure admin endpoints with strong auth (JWT + refresh + optional 2FA).
+* Use TLS for any network communication (Pi -> server).
+* Rate-limit API calls from devices and dashboard.
+* Log tamper-evidence: use append-only logs or signed logs if needed.
+
+## 12. Deployment on Raspberry Pi (practical notes)
+
+* Use lightweight Python service (systemd) that runs wake-word process and event loop.
+* Keep models lightweight: use Porcupine native library compiled for Pi; Rhino can run locally (Picovoice has small-footprint options) or call an edge service.
+* Resemblyzer embeddings computation is lightweight but requires Python and dependencies (PyTorch). If Pi is weak, consider moving embedding computation to the local home server.
+* Store a local SQLite for fast counters and cache with periodic sync to central DB.
+* Ensure Pi has a real-time clock or NTP configured for timestamps.
+
+## 13. Logging & Analytics
+
+* Record every attempt with timestamp, device id, result, matched user id and confidence.
+* Dashboard aggregates: unlock-by-user counts, daily/weekly heatmap, suspicious attempts.
+
+## 14. Notification logic summary
+
+* Speaker verification fail: increment speaker_fail counter. On reaching **3**, send notification to family admins with an option to remotely unlock.
+* Keyword verification fail: increment keyword_fail. On reaching **5**, send push to all registered family members: "Someone is trying to open the door repeatedly — please check."
+* Unknown repeated attempts from same device within short window: optional camera snap + email to admin.
+
+## 15. Testing plan
+
+* Unit tests for each module (Porcupine handler, Rhino handler, Resemblyzer wrapper, unlock module, DB ops).
+* Integration tests (simulated audio flows) with recorded samples and negative tests (attacker voices, noisy background).
+* Field tests: 10 families beta, collect stats and tune thresholds.
+
+## 16. Task checklist (assignable)
+
+* [ ] Finalize hardware list (mic, Pi model, relay, camera)
+* [ ] Create audio capture module + Porcupine integration (wake-word)
+* [ ] Build Resemblyzer wrapper for embedding, matching & thresholds
+* [ ] Integrate Rhino intent detection and auto-config from uploaded keyword samples
+* [ ] Design DB schema and implement local SQLite + central Postgres
+* [ ] Build Dashboard (React) — member onboarding flows and remote unlock
+* [ ] Implement notification service (push + email)
+* [ ] Implement admin approval flows and role-based access control
+* [ ] Add logging, metrics, and analytics
+* [ ] Run integration + field tests and tune thresholds
+
+## 17. Responsibilities (suggestion)
+
+* **Audio / ML dev**: Resemblyzer, thresholds, embedding pipeline
+* **Keyword/Intent dev**: Rhino integration, auto-config logic
+* **Edge / Pi dev**: Systemd service, audio recording, local DB, lock control
+* **Backend / API dev**: DB, auth, notification, pairing
+* **Frontend / Dashboard**: Onboarding, logs, admin actions
+* **QA / Field test**: Test cases and real-world tuning
+
+## 18. Future improvements
+
+* Adaptive thresholding per user (learn over time)
+* Continuous learning: update embeddings with new successful samples
+* Multi-factor unlock: voice + BLE token on phone
+* Local on-device differential privacy for analytics
+
+
