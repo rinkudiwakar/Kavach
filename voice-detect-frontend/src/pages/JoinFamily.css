@@ -1,0 +1,99 @@
+.join-family-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0a0a0f;
+  color: #e0e0e0;
+  padding: 20px;
+}
+
+.join-family-card {
+  background-color: #11121a;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 255, 150, 0.2);
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+.join-family-header {
+  margin-bottom: 25px;
+}
+
+.join-icon {
+  color: #00ff88;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.join-form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+  color: #a0a0a0;
+  font-weight: 500;
+}
+
+.join-form input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #1a1b24;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.join-form input::placeholder {
+  color: #888;
+}
+
+.token-hint {
+  font-size: 13px;
+  color: #00ff88;
+  margin-bottom: 20px;
+}
+
+.info-box {
+  background-color: #1a1b24;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  color: #b0b0b0;
+}
+
+.info-box h3 {
+  color: #00ff88;
+  margin-bottom: 10px;
+}
+
+.info-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info-box ul li {
+  margin: 6px 0;
+}
+
+.join-btn {
+  background: linear-gradient(90deg, #00ff88, #00c2ff);
+  color: #000;
+  border: none;
+  padding: 14px;
+  width: 100%;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.join-btn:hover {
+  opacity: 0.9;
+}

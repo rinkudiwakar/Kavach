@@ -1,6 +1,5 @@
-<<<<<<< HEAD:voice-detect-frontend/src/pages/dashboard.jsx
 import React from "react";
-import { Lock, Shield, Users, AlertTriangle } from "lucide-react";
+import { Lock, Shield, Users, AlertTriangle, Mic, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
@@ -8,81 +7,111 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="dashboard">
-      {/* Header */}
-      <header className="header">
-        <div className="header-content">
-          <div>
-            <h1 className="title">Voice Lock Dashboard</h1>
-            <p className="subtitle">
-              Secure your home with biometric voice authentication
-            </p>
+    <div className="dashboard-container">
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Shield className="navbar-icon" />
+          <h2 className="navbar-title">KAVACH</h2>
+        </div>
+        <div className="navbar-right">
+          <button className="login-btn" onClick={() => navigate("/login")}>
+            Login
+          </button>
+          <button className="get-started-small" onClick={() => navigate("/login")}>
+            Get Started
+          </button>
+        </div>
+      </nav>
 
-            {/* Get Started Button */}
+      {/* Hero Section */}
+      <header className="dashboard-header-dark">
+        <div className="dashboard-title-section">
+          <Shield className="dashboard-icon-glow" />
+          <h1 className="dashboard-title-glow">KAVACH</h1>
+          <p className="dashboard-subtitle-dark">
+            Voice-Authenticated Smart Home Security
+          </p>
+          <p className="dashboard-description">
+            Next-generation security system powered by advanced voice recognition
+            technology. Protect your home with the most natural authentication
+            method — your voice.
+          </p>
+
+          {/* Buttons */}
+          <div className="dashboard-buttons">
             <button
               className="get-started-btn"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/login")}
             >
               Get Started
             </button>
-          </div>
-          <div className="lock-status">
-            <Lock className="lock-icon" />
-            <span>Door Locked</span>
+            <button className="see-demo-btn">
+              <Eye size={18} /> See Demo
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Main */}
-      <main className="main">
-        <div className="stats-grid">
-          <div className="stat-card">
-            <Users className="stat-icon" />
-            <h3>Family Members</h3>
-            <p className="stat-number">0</p>
-            <p className="stat-desc">Registered users</p>
-          </div>
+      {/* Features Section */}
+      <main className="features-section-dark">
+        <h2 className="features-heading">Why Choose KAVACH?</h2>
+        <p className="features-subheading">
+          Advanced features for complete home security
+        </p>
 
-          <div className="stat-card">
-            <Shield className="stat-icon green" />
-            <h3>Security Status</h3>
-            <p className="stat-number green">Active</p>
-            <p className="stat-desc">All systems operational</p>
-          </div>
-
-          <div className="stat-card">
-            <AlertTriangle className="stat-icon yellow" />
-            <h3>Recent Alerts</h3>
-            <p className="stat-number">0</p>
-            <p className="stat-desc">In the last 24 hours</p>
-          </div>
-        </div>
-
-        <div className="action-grid">
-          <div className="action-card">
-            <h4>Register Family Members</h4>
-            <p>Add new members and configure their access</p>
-            <button className="primary-btn">Add New Member</button>
-          </div>
-
-          <div className="action-card">
-            <h4>Voice Enrollment</h4>
-            <p>Record voice samples for authentication</p>
-            <button className="secondary-btn">Start Enrollment</button>
-          </div>
-
-          <div className="action-card">
-            <h4>Unlock Keyword</h4>
+        <div className="features-grid">
+          <div className="feature-card-dark">
+            <Mic className="feature-icon-glow" />
+            <h3>Voice Recognition</h3>
             <p>
-              Current phrase: <strong>"Hi Di, open the door"</strong>
+              Advanced AI-powered voice authentication ensures only authorized
+              family members can access your home.
             </p>
-            <button className="secondary-btn">Change Keyword</button>
           </div>
 
-          <div className="action-card">
-            <h4>Security Logs</h4>
-            <p>View recent access attempts and activity</p>
-            <button className="secondary-btn">View All Logs</button>
+          <div className="feature-card-dark">
+            <Users className="feature-icon-glow" />
+            <h3>Family Management</h3>
+            <p>
+              Manage family members, approve access requests, and monitor
+              activities in real time.
+            </p>
+          </div>
+
+          <div className="feature-card-dark">
+            <Lock className="feature-icon-glow" />
+            <h3>Smart Lock Integration</h3>
+            <p>
+              Seamlessly integrates with your smart lock system for secure,
+              hands-free access control.
+            </p>
+          </div>
+
+          <div className="feature-card-dark">
+            <Shield className="feature-icon-glow" />
+            <h3>Multi-layer Security</h3>
+            <p>
+              Voice keyword protection with backup PIN ensures access even when
+              recognition isn’t available.
+            </p>
+          </div>
+
+          <div className="feature-card-dark">
+            <Eye className="feature-icon-glow" />
+            <h3>Admin Controls</h3>
+            <p>
+              Admin dashboard with security settings and detailed access reports.
+            </p>
+          </div>
+
+          <div className="feature-card-dark">
+            <AlertTriangle className="feature-icon-glow" />
+            <h3>Real-time Monitoring</h3>
+            <p>
+              Get instant alerts and monitor all access attempts with detailed
+              logs.
+            </p>
           </div>
         </div>
       </main>
@@ -91,86 +120,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-=======
-import React from "react";
-import { Lock, Shield, Users, AlertTriangle } from "lucide-react";
-import "./Dashboard.css";
-
-const Dashboard = () => {
-  return (
-    <div className="dashboard">
-      {/* Header */}
-      <header className="header">
-        <div className="header-content">
-          <div>
-            <h1 className="title">Voice Lock Dashboard</h1>
-            <p className="subtitle">
-              Secure your home with biometric voice authentication
-            </p>
-          </div>
-          <div className="lock-status">
-            <Lock className="lock-icon" />
-            <span>Door Locked</span>
-          </div>
-        </div>
-      </header>
-
-      {/* Main */}
-      <main className="main">
-        {/* Stats Section */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <Users className="stat-icon" />
-            <h3>Family Members</h3>
-            <p className="stat-number">0</p>
-            <p className="stat-desc">Registered users</p>
-          </div>
-
-          <div className="stat-card">
-            <Shield className="stat-icon green" />
-            <h3>Security Status</h3>
-            <p className="stat-number green">Active</p>
-            <p className="stat-desc">All systems operational</p>
-          </div>
-
-          <div className="stat-card">
-            <AlertTriangle className="stat-icon yellow" />
-            <h3>Recent Alerts</h3>
-            <p className="stat-number">0</p>
-            <p className="stat-desc">In the last 24 hours</p>
-          </div>
-        </div>
-
-        {/* Action Section */}
-        <div className="action-grid">
-          <div className="action-card">
-            <h4>Register Family Members</h4>
-            <p>Add new members and configure their access</p>
-            <button className="primary-btn">Add New Member</button>
-          </div>
-
-          <div className="action-card">
-            <h4>Voice Enrollment</h4>
-            <p>Record voice samples for authentication</p>
-            <button className="secondary-btn">Start Enrollment</button>
-          </div>
-
-          <div className="action-card">
-            <h4>Unlock Keyword</h4>
-            <p>Current phrase: <strong>"Hi Di, open the door"</strong></p>
-            <button className="secondary-btn">Change Keyword</button>
-          </div>
-
-          <div className="action-card">
-            <h4>Security Logs</h4>
-            <p>View recent access attempts and activity</p>
-            <button className="secondary-btn">View All Logs</button>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-};
-
-export default Dashboard;
->>>>>>> 75d1bdf4d1697455c75bdde805a737c004775af9:voice-detect-frontend/src/dashboard.jsx
