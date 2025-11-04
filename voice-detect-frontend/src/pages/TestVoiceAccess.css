@@ -1,0 +1,131 @@
+.voice-test-container {
+  background-color: #0a0f1c;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  padding: 2rem 3rem;
+  text-align: center;
+}
+
+.voice-test-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00ffc3;
+}
+
+.voice-test-container p {
+  color: #a0a0a0;
+  margin-top: 6px;
+  margin-bottom: 2rem;
+}
+
+/* Voice Card */
+.voice-card {
+  background-color: #0f1624;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  width: 60%;
+  margin: 0 auto 2rem auto;
+  box-shadow: 0 0 25px rgba(0, 255, 195, 0.15);
+}
+
+.mic-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00ffc3, #00a8ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 25px rgba(0, 255, 195, 0.3);
+}
+
+.mic-circle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(0, 255, 195, 0.4);
+}
+
+.mic-circle.recording {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 20px rgba(0, 255, 195, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 255, 195, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(0, 255, 195, 0.4);
+  }
+}
+
+.voice-card h2 {
+  margin-top: 1rem;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.voice-card p {
+  color: #a0a0a0;
+  margin-top: 8px;
+}
+
+/* Info Section */
+.info-section {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.tips,
+.stats {
+  background-color: #0f1624;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 30%;
+  box-shadow: 0 0 20px rgba(0, 255, 195, 0.1);
+}
+
+.tips h3,
+.stats h3 {
+  color: #00ffc3;
+  margin-bottom: 1rem;
+}
+
+.tips ul,
+.stats ul {
+  list-style-type: none;
+  text-align: left;
+  padding-left: 0;
+  line-height: 1.8;
+}
+
+.tips ul li,
+.stats ul li {
+  color: #8eeedc;
+}
+/* === Back Button === */
+.back-btn {
+  margin-top: 50px;
+  background: linear-gradient(90deg, #00ffcc, #00ff88);
+  color: #0b0f19;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(0, 255, 204, 0.6);
+}

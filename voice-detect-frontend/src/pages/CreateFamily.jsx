@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import "./CreateFamily.css";
 
 const CreateFamily = () => {
-  const [familyToken] = useState("z7zgmcif3a"); // example token
+  const [familyToken] = useState("z7zgmcif3a"); // Example token (can be generated dynamically later)
   const navigate = useNavigate();
 
   const handleContinue = (e) => {
     e.preventDefault();
-    // TODO: Add API call to save family data
-    navigate("/voice-setup"); // navigate to next step
+
+    // TODO: Add API call here to store family details + keyword in backend
+
+    // After saving data, go to voice setup page
+    navigate("/voice-setup");
   };
 
   return (
@@ -19,7 +22,7 @@ const CreateFamily = () => {
       <p className="create-subtitle">Set up your family security system</p>
 
       <form className="create-form" onSubmit={handleContinue}>
-        {/* Family Info */}
+        {/* 🛡️ Family Information */}
         <div className="form-section">
           <div className="section-header">
             <Shield size={20} />
@@ -36,7 +39,7 @@ const CreateFamily = () => {
           <input type="text" placeholder="e.g., Mumbai, India" />
         </div>
 
-        {/* Family Token */}
+        {/* 🔑 Family Token */}
         <div className="form-section">
           <div className="section-header">
             <Key size={20} />
@@ -54,11 +57,11 @@ const CreateFamily = () => {
             </button>
           </div>
           <p className="token-info">
-            Share this token with family members to let them join
+            Share this token with family members to let them join.
           </p>
         </div>
 
-        {/* Voice Keyword */}
+        {/* 🎤 Voice Keyword */}
         <div className="form-section">
           <div className="section-header">
             <Mic size={20} />
@@ -66,12 +69,23 @@ const CreateFamily = () => {
           </div>
 
           <label>Voice Command Keyword *</label>
-          <input type="text" placeholder='e.g., "Open Kavach"' required />
-
-          <label>Backup Password</label>
-          <input type="password" placeholder="Emergency backup password" />
+          <input
+            type="text"
+            placeholder='e.g., "Open Kavach"'
+            required
+          />
           <p className="token-info">
-            Optional fallback when voice recognition fails
+            Choose a unique keyword that’s different from your email — this will
+            be used for voice access.
+          </p>
+
+          <label>Backup Password (Optional)</label>
+          <input
+            type="password"
+            placeholder="Emergency backup password"
+          />
+          <p className="token-info">
+            Used if voice recognition fails.
           </p>
         </div>
 

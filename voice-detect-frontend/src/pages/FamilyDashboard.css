@@ -1,0 +1,174 @@
+.family-header {
+  text-align: left;
+  margin-bottom: 10px;
+  padding: 2px 3px;
+  background: none;          /* ✅ removes violet background */
+  background-color: transparent; /* ✅ ensures no color fills */
+  border-bottom: 10px solid rgba(0, 255, 195, 0.2); /* optional subtle line */
+}
+
+.family-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00ffc3;
+  margin: 0;
+}
+
+.family-header p {
+  font-size: 1.1rem;
+  color: #9da8b1;
+  margin-top: 5px;
+}
+
+.family-dashboard {
+  background-color: #0d1117;
+  color: #e0f7ef;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Stats Section */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.stat-card {
+  background-color: #111827;
+  border: 1px solid #00ffc3;
+  border-radius: 12px;
+  text-align: center;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 255, 195, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(0, 255, 195, 0.3);
+}
+
+.stat-icon {
+  color: #00ffc3;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  color: #a9b4b9;
+  margin-bottom: 0.3rem;
+}
+
+.stat-card h2 {
+  color: #00ffc3;
+}
+
+/* Info Section */
+.info-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.info-card {
+  background-color: #111827;
+  border: 1px solid #00ffc3;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 255, 195, 0.15);
+}
+
+.token-box {
+  display: flex;
+  align-items: center;
+  background-color: #0d1117;
+  border: 1px solid #00ffc3;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.token-box input {
+  background: none;
+  border: none;
+  color: #00ffc3;
+  padding: 0.6rem 1rem;
+  flex: 1;
+}
+
+.copy-btn {
+  background-color: #00ffc3;
+  color: #0d1117;
+  border: none;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.copy-btn:hover {
+  opacity: 0.85;
+}
+
+.token-note {
+  color: #a9b4b9;
+  font-size: 0.9rem;
+}
+
+/* Latest Command */
+.latest-command {
+  background-color: rgba(0, 255, 195, 0.1);
+  border: 1px solid #00ffc3;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.intent {
+  color: #a9b4b9;
+  font-size: 0.9rem;
+}
+
+.command {
+  color: #00ffc3;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.time {
+  color: #a9b4b9;
+  font-size: 0.8rem;
+}
+
+/* Chart Section */
+.chart-section {
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+.chart-section h3 {
+  color: #00ffc3;
+  margin-bottom: 1rem;
+}
+.back-btn {
+  background: rgba(0, 255, 195, 0.08);
+  border: 1px solid #00ffc3;
+  color: #00ffc3;
+  border-radius: 6px;
+  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+}
+
+.back-btn:hover {
+ 
+  color: #000;
+  box-shadow: 0 0 2x rgba(0, 255, 195, 0.5);
+}

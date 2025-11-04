@@ -19,10 +19,11 @@ const Login = () => {
           <label>Password</label>
           <input type="password" placeholder="Enter your password" required />
 
+          {/* ✅ Navigate to Admin Dashboard after successful login */}
           <button
             type="button"
             className="auth-btn"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/dashboard/admin")}
           >
             Sign In
           </button>
