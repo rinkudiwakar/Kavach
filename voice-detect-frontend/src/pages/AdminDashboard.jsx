@@ -1,8 +1,17 @@
 import React from "react";
-import { Users, KeyRound, Shield, Eye, Edit, Trash2, Download } from "lucide-react";
+import {
+  Users,
+  Shield,
+  Edit,
+  Trash2,
+  Download,
+} from "lucide-react";
 import "./AdminDashboard.css";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+
   const familyMembers = [
     { name: "Rinku (You)", role: "Admin", status: "Active", unlocks: 247 },
     { name: "Neha Sharma", role: "Member", status: "Active", unlocks: 180 },
@@ -16,10 +25,42 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Shield className="navbar-icon" />
+          <h2 className="navbar-title">KAVACH</h2>
+        </div>
+        <div className="navbar-right">
+          <button className="login-btn" onClick={() => navigate("/login")}>
+            Login
+          </button>
+          <button className="get-started-small" onClick={() => navigate("/login")}>
+            Get Started
+          </button>
+        </div>
+      </nav>
+
+      {/* Dashboard Header */}
+      <header className="dashboard-header">
+        <div>
+          <h1 className="dashboard-title">Admin Dashboard</h1>
+          <p className="dashboard-subtitle">Manage your family security system</p>
+        </div>
+
+        {/* ✅ Member Dashboard Button */}
+        <button
+          className="member-dashboard-btn"
+          onClick={() => navigate("/dashboard/member")}
+        >
+          Go to Member Dashboard
+        </button>
+      </header>
+
       {/* Pending Join Requests */}
-      <section className="section">
-        <div className="section-header">
-          <h2><Users size={20} /> Pending Join Requests</h2>
+      <section className="section small-section">
+        <div className="section-header compact-header">
+          <h2><Users size={18} /> Pending Join Requests</h2>
           <span className="badge">{joinRequests.length}</span>
         </div>
 
@@ -39,15 +80,15 @@ const AdminDashboard = () => {
       </section>
 
       {/* Family Members */}
-      <section className="section">
-        <div className="section-header">
-          <h2><Shield size={20} /> Family Members</h2>
+      <section className="section small-section">
+        <div className="section-header compact-header">
+          <h2><Shield size={18} /> Family Members</h2>
           <button className="export-btn">
-            <Download size={16} /> Export Report
+            <Download size={14} /> Export Report
           </button>
         </div>
 
-        <table className="members-table">
+        <table className="members-table compact-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -73,34 +114,13 @@ const AdminDashboard = () => {
                 </td>
                 <td>{member.unlocks}</td>
                 <td>
-                  <button className="edit"><Edit size={14} /> Edit</button>
-                  <button className="remove"><Trash2 size={14} /> Remove</button>
+                  <button className="edit"><Edit size={12} /> Edit</button>
+                  <button className="remove"><Trash2 size={12} /> Remove</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </section>
-
-      {/* Security Settings */}
-      <section className="section grid-2">
-        <div className="security-card">
-          <h3><KeyRound size={18} /> Security Settings</h3>
-          <button className="security-btn">Change Voice Keyword</button>
-          <button className="security-btn">Update Backup Password</button>
-          <button className="security-btn">Security Audit Log</button>
-        </div>
-
-        <div className="security-card">
-          <h3><Eye size={18} /> Keyword Visibility Requests</h3>
-          <div className="request-box">
-            <p><strong>Neha Sharma</strong> requested to view the family keyword</p>
-            <div className="action-buttons">
-              <button className="approve">Approve</button>
-              <button className="reject">Deny</button>
-            </div>
-          </div>
-        </div>
       </section>
     </div>
   );

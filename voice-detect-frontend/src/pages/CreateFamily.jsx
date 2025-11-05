@@ -17,7 +17,9 @@ const CreateFamily = () => {
   };
 
   return (
+    
     <div className="create-family-container">
+        
       <h1 className="create-title">Create Your Family</h1>
       <p className="create-subtitle">Set up your family security system</p>
 

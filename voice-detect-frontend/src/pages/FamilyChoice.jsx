@@ -7,7 +7,10 @@ const FamilyChoice = () => {
   const navigate = useNavigate();
 
   return (
+    
     <div className="family-choice-container">
+        
+
       <h1 className="family-choice-title">Choose Your Path</h1>
       <p className="family-choice-subtitle">
         Create a new family or join an existing one

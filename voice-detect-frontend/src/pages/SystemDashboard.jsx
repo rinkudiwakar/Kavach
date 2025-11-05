@@ -1,14 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Server,
   Database,
   Cpu,
   AlertTriangle,
   Activity,
+  ArrowLeft,
 } from "lucide-react";
 import "./SystemDashboard.css";
 
 const SystemDashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="system-dashboard">
       {/* Header */}
@@ -17,10 +21,14 @@ const SystemDashboard = () => {
           <Server size={36} className="dashboard-icon" />
           <h1>System Dashboard</h1>
         </div>
-        <p className="dashboard-subtitle">
-          Engineering & System Overview
-        </p>
+
+        {/* Back Button */}
+        <button className="back-btn" onClick={() => navigate("/dashboard/member")}>
+          <ArrowLeft size={15} /> Back
+        </button>
       </header>
+
+      <p className="dashboard-subtitle">Engineering & System Overview</p>
 
       {/* Top Stats */}
       <div className="stats-container">
@@ -115,9 +123,7 @@ const SystemDashboard = () => {
           <AlertTriangle className="alert-symbol" />
           <div>
             <p className="alert-title">Low Storage Space</p>
-            <p>
-              Storage is at 85% capacity. Consider cleaning up old logs.
-            </p>
+            <p>Storage is at 85% capacity. Consider cleaning up old logs.</p>
             <small>2 hours ago</small>
           </div>
         </div>

@@ -8,12 +8,19 @@
 
 /* Section container */
 .section {
-  background: rgba(15, 25, 35, 0.9);
-  border: 1px solid #00ffc3;
-  border-radius: 16px;
-  box-shadow: 0 0 12px rgba(0, 255, 195, 0.2);
-  padding: 20px;
-  margin-bottom: 25px;
+  background: rgba(15, 25, 35, 0.85);
+  border: 0.5px solid rgba(0, 255, 195, 0.4); /* thinner, softer border */
+  border-radius: 14px;
+  box-shadow: 0 0 6px rgba(0, 255, 195, 0.15);
+  padding: 18px;
+  margin-bottom: 18px;
+  transition: all 0.3s ease;
+}
+
+/* Subtle hover effect */
+.section:hover {
+  border-color: #00ffc3;
+  box-shadow: 0 0 10px rgba(0, 255, 195, 0.3);
 }
 
 /* Section Header */
@@ -26,9 +33,13 @@
 }
 
 .section-header h2 {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
+  color: #00ffc3;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .badge {
@@ -39,12 +50,35 @@
   font-weight: bold;
 }
 
+/* Export Button */
+.export-btn {
+  background: none;
+  border: none;
+  color: #00f5d4;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.export-btn:hover {
+  color: #00ffe0;
+  transform: scale(1.05);
+}
+
+.export-btn:hover svg {
+  stroke: #00ffe0;
+}
+
 /* Requests */
 .request-card {
   background: #101820;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 15px 20px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,7 +128,7 @@
 .members-table th,
 .members-table td {
   padding: 10px 12px;
-  border-bottom: 1px solid #00ffc340;
+  border-bottom: 0.5px solid rgba(0, 255, 195, 0.25);
   text-align: left;
 }
 
@@ -124,40 +158,50 @@
 .remove {
   background: transparent;
   border: none;
-  color: #00ffc3;
   cursor: pointer;
-  margin-right: 10px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s ease;
+}
+
+.edit {
+  color: #00ffc3;
+}
+
+.edit:hover {
+  color: #00ffe0;
 }
 
 .remove {
   color: #ff2d55;
 }
 
-.export-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #00ffc3;
-  border: none;
-  padding: 6px 12px;
-  color: #000;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
+.remove:hover {
+  color: #ff4f6e;
 }
 
-/* Security Section */
+/* Grid layout for Security Section */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
+/* Security Cards */
 .security-card {
-  background: #101820;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 0 12px rgba(0, 255, 195, 0.2);
+  background: rgba(16, 24, 32, 0.85);
+  border-radius: 14px;
+  border: 0.5px solid rgba(0, 255, 195, 0.3);
+  padding: 18px;
+  box-shadow: 0 0 6px rgba(0, 255, 195, 0.15);
+  transition: all 0.3s ease;
+}
+
+.security-card:hover {
+  border-color: #00ffc3;
+  box-shadow: 0 0 10px rgba(0, 255, 195, 0.3);
 }
 
 .security-card h3 {
@@ -169,7 +213,7 @@
 }
 
 .security-btn {
-  background: #0b1a1f;
+  background: transparent;
   border: 1px solid #00ffc3;
   color: #00ffc3;
   width: 100%;
@@ -178,6 +222,7 @@
   margin-bottom: 10px;
   cursor: pointer;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .security-btn:hover {
@@ -186,7 +231,50 @@
 }
 
 .request-box {
-  background: #00ffc320;
+  background: rgba(0, 255, 195, 0.1);
   border-radius: 10px;
   padding: 15px;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 20px;
+  background: transparent;
+  box-shadow: none;
+  margin-bottom: 10px;
+}
+
+.dashboard-title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00f5a0, #00d9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.dashboard-subtext {
+  font-size: 1rem;
+  color: #9fffe0;
+  margin-left: 4px;
+}
+.member-dashboard-btn {
+    background: linear-gradient(90deg, #00f5a0, #00d9ff);
+  color: #00221b;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: auto;
+  box-shadow: 0 0 3px rgba(0, 255, 204, 0.2);
+}
+
+.member-dashboard-btn:hover {
+  background-color: #00f5a0;
 }
