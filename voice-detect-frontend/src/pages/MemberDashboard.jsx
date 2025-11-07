@@ -1,5 +1,5 @@
 import React from "react";
-import { Lock, Shield, Users, Mic, Activity, Server } from "lucide-react";
+import { Lock, Shield, Users, Mic, Activity, Server, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./MemberDashboard.css";
 
@@ -8,9 +8,20 @@ const MemberDashboard = () => {
 
   return (
     <div className="member-dashboard">
+      {/* Header Section */}
+      <header className="dashboard-header">
+        <div className="dashboard-title">
+          <h1>Member Dashboard</h1>
+        </div>
+
+        {/* Back Button */}
+        <button className="back-btn" onClick={() => navigate("/dashboard")}>
+          <ArrowLeft size={15} /> Back
+        </button>
+      </header>
+
       {/* Welcome Section */}
       <section className="welcome-section">
-        <h1>Member Dashboard</h1>
         <p>Welcome back, Rinku 👋</p>
       </section>
 

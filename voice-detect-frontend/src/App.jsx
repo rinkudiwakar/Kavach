@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // ✅ Import all pages
 import Login from "./pages/Login";
@@ -13,33 +13,39 @@ import MemberDashboard from "./pages/MemberDashboard";
 import FamilyDashboard from "./pages/FamilyDashboard";
 import TestVoiceAccess from "./pages/TestVoiceAccess";
 import AdminDashboard from "./pages/AdminDashboard";
-import SystemDashboard from "./pages/SystemDashboard"; // ✅ Added new page
+import SystemDashboard from "./pages/SystemDashboard"; 
 
 const App = () => {
   return (
-    <Routes>
-      {/* 🔐 Authentication */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+ 
+      <Routes>
 
-      {/* 🏠 General Dashboards */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/dashboard/member" element={<MemberDashboard />} />
-      <Route path="/dashboard/admin" element={<AdminDashboard />} />
+        {/* ✅ default redirect */}
+        <Route path="/" element={<Navigate to="/dashboard" />} />
 
-      {/* 👨‍👩‍👧 Family Management */}
-      <Route path="/family-choice" element={<FamilyChoice />} />
-      <Route path="/create-family" element={<CreateFamily />} />
-      <Route path="/join-family" element={<JoinFamily />} />
-      <Route path="/family-dashboard" element={<FamilyDashboard />} />
+        {/* 🔐 Authentication */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-      {/* 🎤 Voice Setup and Testing */}
-      <Route path="/voice-setup" element={<VoiceSetup />} />
-      <Route path="/test-voice-access" element={<TestVoiceAccess />} />
+        {/* 🏠 General Dashboards */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/member" element={<MemberDashboard />} />
+        <Route path="/dashboard/admin" element={<AdminDashboard />} />
 
-      {/* ⚙️ Admin System Overview */}
-      <Route path="/system-dashboard" element={<SystemDashboard />} />
-    </Routes>
+        {/* 👨‍👩‍👧 Family Management */}
+        <Route path="/family-choice" element={<FamilyChoice />} />
+        <Route path="/create-family" element={<CreateFamily />} />
+        <Route path="/join-family" element={<JoinFamily />} />
+        <Route path="/family-dashboard" element={<FamilyDashboard />} />
+
+        {/* 🎤 Voice Setup and Testing */}
+        <Route path="/voice-setup" element={<VoiceSetup />} />
+        <Route path="/test-voice-access" element={<TestVoiceAccess />} />
+
+        {/* ⚙️ Admin System Overview */}
+        <Route path="/system-dashboard" element={<SystemDashboard />} />
+      </Routes>
+   
   );
 };
 

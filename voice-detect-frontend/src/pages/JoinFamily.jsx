@@ -23,6 +23,7 @@ const JoinFamily = () => {
   };
 
   return (
+    
     <div className="join-family-container">
       <div className="join-family-card">
         <div className="join-family-header">

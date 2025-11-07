@@ -1,0 +1,330 @@
+.admin-dashboard {
+  background: #060a0f;
+  color: #e0fdf4;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Section container */
+.section {
+  background: rgba(15, 25, 35, 0.85);
+  border: 0.5px solid rgba(0, 255, 195, 0.4);
+  border-radius: 14px;
+  box-shadow: 0 0 6px rgba(0, 255, 195, 0.15);
+  padding: 18px;
+  margin-bottom: 18px;
+  transition: all 0.3s ease;
+}
+
+.section:hover {
+  border-color: #00ffc3;
+  box-shadow: 0 0 12px rgba(0, 255, 195, 0.4);
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #00ffc3;
+  margin-bottom: 15px;
+}
+
+.section-header h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  color: #00ffc3;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Badge */
+.badge {
+  background: #00ffc3;
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+/* Export Button */
+.export-btn {
+  background: none;
+  border: none;
+  color: #00f5d4;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.export-btn:hover {
+  color: #00ffe0;
+  transform: scale(1.05);
+}
+
+.export-btn:hover svg {
+  stroke: #00ffe0;
+}
+
+/* Requests */
+.request-card {
+  background: #101820;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.request-card h4 {
+  margin: 0;
+  color: #fff;
+}
+
+.request-card p {
+  color: #9de7d6;
+  margin: 4px 0;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.approve {
+  background: #00ff99;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #000;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.approve:hover {
+  filter: brightness(1.15);
+}
+
+.reject {
+  background: #ff2d55;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.reject:hover {
+  filter: brightness(1.15);
+}
+
+/* Members Table */
+.members-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.members-table th,
+.members-table td {
+  padding: 10px 12px;
+  border-bottom: 0.5px solid rgba(0, 255, 195, 0.25);
+  text-align: left;
+}
+
+.role {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.role.admin {
+  background: #00fff2;
+  color: #000;
+}
+
+.role.member {
+  background: #00ff99;
+  color: #000;
+}
+
+.status.active {
+  color: #00ffc3;
+  font-weight: 500;
+}
+
+.edit,
+.remove {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s ease;
+}
+
+.edit {
+  color: #00ffc3;
+}
+.edit:hover {
+  color: #00ffe0;
+}
+
+.remove {
+  color: #ff2d55;
+}
+.remove:hover {
+  color: #ff4f6e;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 20px;
+  background: transparent;
+  margin-bottom: 10px;
+}
+
+.dashboard-title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00f5a0, #00d9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.dashboard-subtitle {
+  font-size: 1rem;
+  color: #9fffe0;
+  margin-left: 4px;
+}
+
+/* Go to Member Dashboard Button */
+.member-dashboard-btn {
+  background: linear-gradient(90deg, #00f5a0, #00d9ff);
+  color: #00221b;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: auto;
+  box-shadow: 0 0 4px rgba(0, 255, 204, 0.3);
+}
+
+.member-dashboard-btn:hover {
+  opacity: 0.85;
+  transform: scale(1.04);
+}
+
+/* ✅ Add Member Button */
+.add-member-btn {
+  background: #00ffc3;
+  color: #00221b;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.add-member-btn:hover {
+  background: #00ffe0;
+  transform: scale(1.05);
+}
+
+/* ✅ Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* ✅ Modal Box */
+.modal {
+  background: #0e1720;
+  border: 1px solid #00ffc3;
+  border-radius: 14px;
+  padding: 22px;
+  width: 360px;
+  box-shadow: 0 0 14px rgba(0, 255, 195, 0.3);
+}
+
+/* Inputs */
+.modal input {
+  width: 100%;
+  background: #0c141c;
+  border: 1px solid rgba(0, 255, 195, 0.4);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 6px 0 12px 0;
+  color: #e0fdf4;
+}
+
+.modal input:hover,
+.modal input:focus {
+  border-color: #00ffc3;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 255, 195, 0.4);
+}
+
+/* Modal Buttons */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.modal-actions button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.modal-actions button:first-child {
+  background: #00ffc3;
+  color: #00221b;
+}
+
+.modal-actions button:first-child:hover {
+  filter: brightness(1.1);
+}
+
+.modal-actions .cancel {
+  background: #ff2d55;
+  color: #fff;
+}
+
+.modal-actions .cancel:hover {
+  filter: brightness(1.1);
+}

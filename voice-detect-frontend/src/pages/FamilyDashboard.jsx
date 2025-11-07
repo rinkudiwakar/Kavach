@@ -15,7 +15,6 @@ import "./FamilyDashboard.css";
 const FamilyDashboard = () => {
   const navigate = useNavigate();
 
-  // Sample chart data
   const data = [
     { day: "Mon", attempts: 12 },
     { day: "Tue", attempts: 15 },
@@ -28,19 +27,19 @@ const FamilyDashboard = () => {
 
   return (
     <div className="family-dashboard">
-      {/* Header Section */}
-      <header className="family-header">
-        <button
-          className="back-btn"
-          onClick={() => navigate("/dashboard/member")}
-        >
-          <ArrowLeft size={15} /> Back
-        </button>
+    <header className="family-header">
+  <h1 className="family-title">Family Dashboard</h1>
+  <button
+    className="back-btn"
+    onClick={() => navigate("/dashboard/member")}
+  >
+    <ArrowLeft size={15} /> Back
+  </button>
+</header>
 
-        <h1>Family Dashboard</h1>
-        <p>The Sharma Family</p>
-      </header>
+<p className="family-subtitle">The Sharma Family</p>
 
+    
       {/* Top Stats */}
       <section className="stats-section">
         <div className="stat-card">
@@ -68,7 +67,7 @@ const FamilyDashboard = () => {
         </div>
       </section>
 
-      {/* Family Token and Latest Command */}
+      {/* Info Section */}
       <section className="info-section">
         <div className="info-card">
           <h3>Family Token</h3>

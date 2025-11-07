@@ -54,6 +54,7 @@
   font-size: 15px;
 }
 
+/* Navbar Buttons */
 .login-btn {
   background-color: #04070a;
   color: #d9fdfd;
@@ -63,7 +64,7 @@
 .login-btn:hover {
   background-color: #00fca8;
   color: #02161f;
-  box-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
+  box-shadow: 0 0 6px rgba(0, 255, 170, 0.3);
   transform: translateY(-2px);
 }
 
@@ -74,7 +75,7 @@
 
 .get-started-small:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+  box-shadow: 0 0 6px rgba(0, 255, 204, 0.4);
 }
 
 /* Hero Section */
@@ -119,7 +120,7 @@
 .dashboard-buttons {
   display: flex;
   justify-content: center;
-  gap: 18px;
+  gap: 14px;
   margin-top: 25px;
 }
 
@@ -128,18 +129,20 @@
   background: linear-gradient(90deg, #00f5a0, #00d9ff);
   color: #00221b;
   font-weight: 600;
-  padding: 12px 34px;
-  border-radius: 14px;
+  padding: 10px 22px;
+  border-radius: 10px;
   border: none;
-  font-size: 16px;
+  font-size: 15px;
   transition: all 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 0 6px rgba(0, 255, 204, 0.3);
+  width: auto;
+  box-shadow: 0 0 3px rgba(0, 255, 204, 0.2);
 }
 
 .get-started-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
+  background: linear-gradient(90deg, #00ffc3, #00e0ff);
+  box-shadow: 0 0 6px rgba(0, 255, 204, 0.5);
 }
 
 /* See Demo Button */
@@ -147,22 +150,24 @@
   background: #060a0f;
   color: #d9fdfd;
   font-weight: 600;
-  padding: 12px 34px;
-  border-radius: 14px;
-  border: none;
-  font-size: 16px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: 1px solid #00ffc3;
+  font-size: 15px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 5px rgba(0, 255, 255, 0.1);
+  width: auto;
+  box-shadow: 0 0 3px rgba(0, 255, 255, 0.1);
 }
 
 .see-demo-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  background: rgba(0, 255, 195, 0.08);
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
 }
 
 /* Features Section */
