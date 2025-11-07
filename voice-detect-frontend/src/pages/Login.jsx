@@ -1,9 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
+import {login, saveToken} from "../lib/api";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await login({ email, password });
+      if (res.token) {
+        saveToken(res.token);
+        navigate("/dashboard/admin");
+      } else {
+        alert(res.error || "Login failed");
+      }
+    } catch (err) {
+      alert(err.data?.error || "Login failed");
+    }
+  };
 
   return (
     <div className="auth-container">
@@ -12,21 +30,14 @@ const Login = () => {
         <h1 className="auth-title">Welcome to KAVACH</h1>
         <p className="auth-subtitle">Voice-Authenticated Smart Home Security</p>
 
-        <form className="auth-form">
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label>Email</label>
-          <input type="email" placeholder="Enter your email" required />
+          <input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="Enter your email" required />
 
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" required />
+          <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Enter your password" required />
 
-          {/* ✅ Navigate to Admin Dashboard after successful login */}
-          <button
-            type="button"
-            className="auth-btn"
-            onClick={() => navigate("/dashboard/admin")}
-          >
-            Sign In
-          </button>
+          <button type="submit" className="auth-btn">Sign In</button>
         </form>
 
         <p className="auth-switch">

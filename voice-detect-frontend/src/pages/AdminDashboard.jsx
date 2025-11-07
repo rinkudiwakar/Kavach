@@ -6,7 +6,7 @@ import {
   Trash2,
   Download,
 } from "lucide-react";
-import "./AdminDashboard.css";
+import "../css/AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
