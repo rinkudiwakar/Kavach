@@ -5,6 +5,12 @@ import "./Auth.css";
 const Signup = () => {
   const navigate = useNavigate();
 
+  const handleSignup = (e) => {
+    e.preventDefault(); // Prevents page reload
+    // Add signup logic here (API call, validation, etc.)
+    navigate("/family-choice"); // Redirect after signup
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -12,7 +18,8 @@ const Signup = () => {
         <h1 className="auth-title">Create Account</h1>
         <p className="auth-subtitle">Join KAVACH Smart Home Security</p>
 
-        <form className="auth-form">
+        {/* Attach handleSignup to form */}
+        <form className="auth-form" onSubmit={handleSignup}>
           <label>Full Name</label>
           <input type="text" placeholder="Enter your name" required />
 
@@ -22,11 +29,8 @@ const Signup = () => {
           <label>Password</label>
           <input type="password" placeholder="Create password" required />
 
-          <button
-            type="button"
-            className="auth-btn"
-            onClick={() => navigate("/dashboard")}
-          >
+          {/* Submit triggers handleSignup */}
+          <button type="submit" className="auth-btn">
             Sign Up
           </button>
         </form>

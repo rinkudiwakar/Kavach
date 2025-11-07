@@ -1,0 +1,94 @@
+.family-choice-container {
+  background: radial-gradient(circle at center, #011016, #00070d);
+  min-height: 100vh;
+  color: white;
+  text-align: center;
+  padding: 4rem 2rem;
+  font-family: "Inter", sans-serif;
+}
+
+.family-choice-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #00fca8;
+  margin-bottom: 0.5rem;
+}
+
+.family-choice-subtitle {
+  color: #9ee9dc;
+  margin-bottom: 3rem;
+}
+
+.family-choice-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+}
+
+.family-card {
+  background: rgba(0, 10, 15, 0.7);
+  border: 1px solid rgba(0, 255, 170, 0.15);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 300px;
+  box-shadow: 0 0 20px rgba(0, 255, 170, 0.08);
+  transition: all 0.3s ease;
+}
+
+.family-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(0, 255, 170, 0.2);
+}
+
+.family-icon {
+  color: #00ffae;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1rem;
+}
+
+.family-card h2 {
+  color: #00ffae;
+  margin-bottom: 0.6rem;
+}
+
+.family-card p {
+  color: #b6e8dd;
+  font-size: 15px;
+  margin-bottom: 1rem;
+}
+
+.family-card ul {
+  text-align: left;
+  color: #9ee9dc;
+  font-size: 14px;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.family-btn {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.create-btn {
+  background: linear-gradient(90deg, #00f5a0, #00d9ff);
+  color: #00221b;
+}
+
+.join-btn {
+  background: linear-gradient(90deg, #00ffae, #00e676);
+  color: #00221b;
+}
+
+.family-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+}

@@ -1,0 +1,159 @@
+
+.member-dashboard {
+  background-color: #0a0f1c;
+  min-height: 100vh;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  padding: 2rem 3rem;
+}
+
+/* Welcome Section */
+.welcome-section h1 {
+  font-size: 2rem;
+  color: #00ffc3;
+  font-weight: 700;
+}
+
+.welcome-section p {
+  color: #a0a0a0;
+  margin-top: 4px;
+  margin-bottom: 2rem;
+}
+
+/* Status Cards */
+.status-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.status-card {
+  background-color: #0f1624;
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 0 18px rgba(0, 255, 195, 0.1);
+  transition: 0.3s;
+}
+
+.status-card:hover {
+  box-shadow: 0 0 25px rgba(0, 255, 195, 0.3);
+  transform: translateY(-4px);
+}
+
+.status-card p {
+  color: #9daab3;
+  margin: 0;
+}
+
+.status-card h3 {
+  color: #00ffc3;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* Bottom Section */
+.bottom-section {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Quick Actions & Recent Activity */
+.quick-actions,
+.recent-activity {
+  background-color: #0f1624;
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 0 18px rgba(0, 255, 195, 0.1);
+}
+
+.quick-actions h2,
+.recent-activity h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #00ffc3;
+  color: #000;
+  font-weight: 600;
+  border: none;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.action-btn:hover {
+  background: linear-gradient(90deg, #00ffc3, #00a8ff);
+}
+
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0c1220;
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+  margin-bottom: 0.8rem;
+}
+
+.secondary-btn:hover {
+  background: #141c2e;
+}
+
+/* Recent Activity */
+.activity-item {
+  background-color: #0c1220;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.activity-item:hover {
+  background-color: #141c2e;
+}
+
+.activity-item .left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activity-item .status {
+  font-weight: 600;
+  color: #00ffc3;
+}
+
+.activity-item .status.failed {
+  color: #ff4d4d;
+}
+
+.activity-item .time {
+  color: #9daab3;
+  font-size: 0.9rem;
+}

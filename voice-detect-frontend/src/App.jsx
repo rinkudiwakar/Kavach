@@ -1,47 +1,52 @@
-<<<<<<< HEAD
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+// ✅ Import all pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import FamilyChoice from "./pages/FamilyChoice";
+import CreateFamily from "./pages/CreateFamily";
+import JoinFamily from "./pages/JoinFamily";
+import VoiceSetup from "./pages/VoiceSetup";
+import MemberDashboard from "./pages/MemberDashboard";
+import FamilyDashboard from "./pages/FamilyDashboard";
+import TestVoiceAccess from "./pages/TestVoiceAccess";
+import AdminDashboard from "./pages/AdminDashboard";
+import SystemDashboard from "./pages/SystemDashboard"; 
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
+ 
+      <Routes>
+
+        {/* ✅ default redirect */}
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+
+        {/* 🔐 Authentication */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* 🏠 General Dashboards */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/member" element={<MemberDashboard />} />
+        <Route path="/dashboard/admin" element={<AdminDashboard />} />
+
+        {/* 👨‍👩‍👧 Family Management */}
+        <Route path="/family-choice" element={<FamilyChoice />} />
+        <Route path="/create-family" element={<CreateFamily />} />
+        <Route path="/join-family" element={<JoinFamily />} />
+        <Route path="/family-dashboard" element={<FamilyDashboard />} />
+
+        {/* 🎤 Voice Setup and Testing */}
+        <Route path="/voice-setup" element={<VoiceSetup />} />
+        <Route path="/test-voice-access" element={<TestVoiceAccess />} />
+
+        {/* ⚙️ Admin System Overview */}
+        <Route path="/system-dashboard" element={<SystemDashboard />} />
+      </Routes>
+   
   );
 };
 
 export default App;
-=======
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
-
-export default App;
->>>>>>> 75d1bdf4d1697455c75bdde805a737c004775af9

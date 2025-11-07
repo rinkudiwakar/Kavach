@@ -1,0 +1,6 @@
+Flask==2.3.3
+flask-mongoengine
+flask-bcrypt
+flask-jwt-extended
+resemblyzer
+numpy
