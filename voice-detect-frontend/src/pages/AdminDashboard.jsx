@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Users,
   Shield,
   Edit,
   Trash2,
   Download,
+  PlusCircle,
 } from "lucide-react";
 import "../css/AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
@@ -12,74 +12,86 @@ import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  const familyMembers = [
+  // ✅ Default: Admin only
+  const [familyMembers, setFamilyMembers] = useState([
     { name: "Rinku (You)", role: "Admin", status: "Active", unlocks: 247 },
-    { name: "Neha Sharma", role: "Member", status: "Active", unlocks: 180 },
-    { name: "Raj Sharma", role: "Member", status: "Active", unlocks: 156 },
-  ];
+  ]);
 
-  const joinRequests = [
-    { name: "Priya Sharma", email: "priya@example.com", date: "2024-01-15" },
-    { name: "Amit Kumar", email: "amit@example.com", date: "2024-01-14" },
-  ];
+  // Modal
+  const [showModal, setShowModal] = useState(false);
+  const [newMember, setNewMember] = useState({
+    name: "",
+    voice1: null,
+    voice2: null,
+    voice3: null,
+  });
+
+  const handleAddMember = () => {
+    if (
+      !newMember.name ||
+      !newMember.voice1 ||
+      !newMember.voice2 ||
+      !newMember.voice3
+    ) {
+      alert("Please enter name and upload all 3 voice samples!");
+      return;
+    }
+
+    setFamilyMembers([
+      ...familyMembers,
+      {
+        name: newMember.name,
+        role: "Member",
+        status: "Active",
+        unlocks: 0,
+      },
+    ]);
+
+    setNewMember({ name: "", voice1: null, voice2: null, voice3: null });
+    setShowModal(false);
+  };
 
   return (
     <div className="admin-dashboard">
+
       {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-left">
           <Shield className="navbar-icon" />
           <h2 className="navbar-title">KAVACH</h2>
         </div>
+
         <div className="navbar-right">
           <button className="login-btn" onClick={() => navigate("/login")}>
             Login
           </button>
+
           <button className="get-started-small" onClick={() => navigate("/login")}>
             Get Started
           </button>
         </div>
       </nav>
 
-      {/* Dashboard Header */}
+      {/* Header */}
       <header className="dashboard-header">
-        <div>
-          <h1 className="dashboard-title">Admin Dashboard</h1>
-          <p className="dashboard-subtitle">Manage your family security system</p>
-        </div>
+        <h1 className="dashboard-title">Admin Dashboard</h1>
+        <p className="dashboard-subtitle">Manage registered members</p>
 
-        {/* ✅ Member Dashboard Button */}
-        <button
-          className="member-dashboard-btn"
-          onClick={() => navigate("/dashboard/member")}
-        >
-          Go to Member Dashboard
-        </button>
+        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+          <button
+            className="member-dashboard-btn"
+            onClick={() => navigate("/dashboard/member")}
+          >
+            Go to Member Dashboard
+          </button>
+
+          <button className="add-member-btn" onClick={() => setShowModal(true)}>
+            <PlusCircle size={16} /> Add Member
+          </button>
+        </div>
       </header>
 
-      {/* Pending Join Requests */}
-      <section className="section small-section">
-        <div className="section-header compact-header">
-          <h2><Users size={18} /> Pending Join Requests</h2>
-          <span className="badge">{joinRequests.length}</span>
-        </div>
-
-        {joinRequests.map((req, index) => (
-          <div className="request-card" key={index}>
-            <div>
-              <h4>{req.name}</h4>
-              <p>{req.email}</p>
-              <small>Requested on {req.date}</small>
-            </div>
-            <div className="action-buttons">
-              <button className="approve">Approve</button>
-              <button className="reject">Reject</button>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* Family Members */}
+      {/* ✅ Family Members Table */}
       <section className="section small-section">
         <div className="section-header compact-header">
           <h2><Shield size={18} /> Family Members</h2>
@@ -98,6 +110,7 @@ const AdminDashboard = () => {
               <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
             {familyMembers.map((member, index) => (
               <tr key={index}>
@@ -107,12 +120,15 @@ const AdminDashboard = () => {
                     {member.role}
                   </span>
                 </td>
+
                 <td>
                   <span className={`status ${member.status.toLowerCase()}`}>
                     {member.status}
                   </span>
                 </td>
+
                 <td>{member.unlocks}</td>
+
                 <td>
                   <button className="edit"><Edit size={12} /> Edit</button>
                   <button className="remove"><Trash2 size={12} /> Remove</button>
@@ -122,6 +138,59 @@ const AdminDashboard = () => {
           </tbody>
         </table>
       </section>
+
+      {/* ✅ Modal */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Add New Member</h3>
+
+            <input
+              type="text"
+              placeholder="Member Name"
+              value={newMember.name}
+              onChange={(e) =>
+                setNewMember({ ...newMember, name: e.target.value })
+              }
+            />
+
+            <label>Upload Voice Sample 1:</label>
+            <input
+              type="file"
+              accept="audio/*"
+              onChange={(e) =>
+                setNewMember({ ...newMember, voice1: e.target.files[0] })
+              }
+            />
+
+            <label>Upload Voice Sample 2:</label>
+            <input
+              type="file"
+              accept="audio/*"
+              onChange={(e) =>
+                setNewMember({ ...newMember, voice2: e.target.files[0] })
+              }
+            />
+
+            <label>Upload Voice Sample 3:</label>
+            <input
+              type="file"
+              accept="audio/*"
+              onChange={(e) =>
+                setNewMember({ ...newMember, voice3: e.target.files[0] })
+              }
+            />
+
+            <div className="modal-actions">
+              <button onClick={handleAddMember}>Add Member</button>
+              <button className="cancel" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

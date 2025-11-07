@@ -9,7 +9,7 @@
 /* Section container */
 .section {
   background: rgba(15, 25, 35, 0.85);
-  border: 0.5px solid rgba(0, 255, 195, 0.4); /* thinner, softer border */
+  border: 0.5px solid rgba(0, 255, 195, 0.4);
   border-radius: 14px;
   box-shadow: 0 0 6px rgba(0, 255, 195, 0.15);
   padding: 18px;
@@ -17,10 +17,9 @@
   transition: all 0.3s ease;
 }
 
-/* Subtle hover effect */
 .section:hover {
   border-color: #00ffc3;
-  box-shadow: 0 0 10px rgba(0, 255, 195, 0.3);
+  box-shadow: 0 0 12px rgba(0, 255, 195, 0.4);
 }
 
 /* Section Header */
@@ -42,6 +41,7 @@
   font-weight: 600;
 }
 
+/* Badge */
 .badge {
   background: #00ffc3;
   color: #000;
@@ -90,10 +90,11 @@
 }
 
 .request-card p {
-  color: #aaa;
+  color: #9de7d6;
   margin: 4px 0;
 }
 
+/* Action Buttons */
 .action-buttons {
   display: flex;
   gap: 10px;
@@ -107,6 +108,11 @@
   cursor: pointer;
   color: #000;
   font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.approve:hover {
+  filter: brightness(1.15);
 }
 
 .reject {
@@ -117,6 +123,11 @@
   cursor: pointer;
   color: #fff;
   font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.reject:hover {
+  filter: brightness(1.15);
 }
 
 /* Members Table */
@@ -169,7 +180,6 @@
 .edit {
   color: #00ffc3;
 }
-
 .edit:hover {
   color: #00ffe0;
 }
@@ -177,63 +187,8 @@
 .remove {
   color: #ff2d55;
 }
-
 .remove:hover {
   color: #ff4f6e;
-}
-
-/* Grid layout for Security Section */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-/* Security Cards */
-.security-card {
-  background: rgba(16, 24, 32, 0.85);
-  border-radius: 14px;
-  border: 0.5px solid rgba(0, 255, 195, 0.3);
-  padding: 18px;
-  box-shadow: 0 0 6px rgba(0, 255, 195, 0.15);
-  transition: all 0.3s ease;
-}
-
-.security-card:hover {
-  border-color: #00ffc3;
-  box-shadow: 0 0 10px rgba(0, 255, 195, 0.3);
-}
-
-.security-card h3 {
-  color: #00ffc3;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.security-btn {
-  background: transparent;
-  border: 1px solid #00ffc3;
-  color: #00ffc3;
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.security-btn:hover {
-  background: #00ffc3;
-  color: #000;
-}
-
-.request-box {
-  background: rgba(0, 255, 195, 0.1);
-  border-radius: 10px;
-  padding: 15px;
 }
 
 /* Dashboard Header */
@@ -243,7 +198,6 @@
   flex-direction: column;
   padding: 20px;
   background: transparent;
-  box-shadow: none;
   margin-bottom: 10px;
 }
 
@@ -256,13 +210,15 @@
   margin-bottom: 8px;
 }
 
-.dashboard-subtext {
+.dashboard-subtitle {
   font-size: 1rem;
   color: #9fffe0;
   margin-left: 4px;
 }
+
+/* Go to Member Dashboard Button */
 .member-dashboard-btn {
-    background: linear-gradient(90deg, #00f5a0, #00d9ff);
+  background: linear-gradient(90deg, #00f5a0, #00d9ff);
   color: #00221b;
   font-weight: 600;
   padding: 10px 22px;
@@ -272,9 +228,103 @@
   transition: all 0.3s ease;
   cursor: pointer;
   width: auto;
-  box-shadow: 0 0 3px rgba(0, 255, 204, 0.2);
+  box-shadow: 0 0 4px rgba(0, 255, 204, 0.3);
 }
 
 .member-dashboard-btn:hover {
-  background-color: #00f5a0;
+  opacity: 0.85;
+  transform: scale(1.04);
+}
+
+/* ✅ Add Member Button */
+.add-member-btn {
+  background: #00ffc3;
+  color: #00221b;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.add-member-btn:hover {
+  background: #00ffe0;
+  transform: scale(1.05);
+}
+
+/* ✅ Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* ✅ Modal Box */
+.modal {
+  background: #0e1720;
+  border: 1px solid #00ffc3;
+  border-radius: 14px;
+  padding: 22px;
+  width: 360px;
+  box-shadow: 0 0 14px rgba(0, 255, 195, 0.3);
+}
+
+/* Inputs */
+.modal input {
+  width: 100%;
+  background: #0c141c;
+  border: 1px solid rgba(0, 255, 195, 0.4);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 6px 0 12px 0;
+  color: #e0fdf4;
+}
+
+.modal input:hover,
+.modal input:focus {
+  border-color: #00ffc3;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 255, 195, 0.4);
+}
+
+/* Modal Buttons */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.modal-actions button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.modal-actions button:first-child {
+  background: #00ffc3;
+  color: #00221b;
+}
+
+.modal-actions button:first-child:hover {
+  filter: brightness(1.1);
+}
+
+.modal-actions .cancel {
+  background: #ff2d55;
+  color: #fff;
+}
+
+.modal-actions .cancel:hover {
+  filter: brightness(1.1);
 }
