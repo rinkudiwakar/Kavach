@@ -12,28 +12,31 @@ import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  // ✅ Default: Admin only
+  // ✅ Family Members (default admin)
   const [familyMembers, setFamilyMembers] = useState([
-    { name: "Rinku (You)", role: "Admin", status: "Active", unlocks: 247 },
+    { name: "Rinku (You)", relationship: "You", status: "Active", unlocks: 2},
   ]);
 
   // Modal
   const [showModal, setShowModal] = useState(false);
   const [newMember, setNewMember] = useState({
     name: "",
+    relationship: "",
     voice1: null,
     voice2: null,
     voice3: null,
   });
 
+  // ✅ Add New Member
   const handleAddMember = () => {
     if (
       !newMember.name ||
+      !newMember.relationship ||
       !newMember.voice1 ||
       !newMember.voice2 ||
       !newMember.voice3
     ) {
-      alert("Please enter name and upload all 3 voice samples!");
+      alert("Please enter name, relationship, and upload all 3 voice samples!");
       return;
     }
 
@@ -41,20 +44,33 @@ const AdminDashboard = () => {
       ...familyMembers,
       {
         name: newMember.name,
-        role: "Member",
+        relationship: newMember.relationship,
         status: "Active",
         unlocks: 0,
       },
     ]);
 
-    setNewMember({ name: "", voice1: null, voice2: null, voice3: null });
+    setNewMember({
+      name: "",
+      relationship: "",
+      voice1: null,
+      voice2: null,
+      voice3: null,
+    });
     setShowModal(false);
+  };
+
+  // ✅ Increase Unlock Count Dynamically
+  const increaseUnlock = (index) => {
+    const updated = [...familyMembers];
+    updated[index].unlocks += 1;
+    setFamilyMembers(updated);
   };
 
   return (
     <div className="admin-dashboard">
 
-      {/* Navbar */}
+      {/* NAVBAR */}
       <nav className="navbar">
         <div className="navbar-left">
           <Shield className="navbar-icon" />
@@ -72,7 +88,7 @@ const AdminDashboard = () => {
         </div>
       </nav>
 
-      {/* Header */}
+      {/* HEADER */}
       <header className="dashboard-header">
         <h1 className="dashboard-title">Admin Dashboard</h1>
         <p className="dashboard-subtitle">Manage registered members</p>
@@ -91,7 +107,7 @@ const AdminDashboard = () => {
         </div>
       </header>
 
-      {/* ✅ Family Members Table */}
+      {/* ✅ FAMILY MEMBERS TABLE */}
       <section className="section small-section">
         <div className="section-header compact-header">
           <h2><Shield size={18} /> Family Members</h2>
@@ -104,7 +120,7 @@ const AdminDashboard = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Role</th>
+              <th>Relationship</th>
               <th>Status</th>
               <th>Total Unlocks</th>
               <th>Actions</th>
@@ -115,12 +131,7 @@ const AdminDashboard = () => {
             {familyMembers.map((member, index) => (
               <tr key={index}>
                 <td>{member.name}</td>
-                <td>
-                  <span className={`role ${member.role.toLowerCase()}`}>
-                    {member.role}
-                  </span>
-                </td>
-
+                <td>{member.relationship}</td>
                 <td>
                   <span className={`status ${member.status.toLowerCase()}`}>
                     {member.status}
@@ -129,9 +140,15 @@ const AdminDashboard = () => {
 
                 <td>{member.unlocks}</td>
 
-                <td>
+                <td style={{ display: "flex", gap: "8px" }}>
                   <button className="edit"><Edit size={12} /> Edit</button>
                   <button className="remove"><Trash2 size={12} /> Remove</button>
+                  <button
+                    className="approve"
+                    onClick={() => increaseUnlock(index)}
+                  >
+                    + Unlock
+                  </button>
                 </td>
               </tr>
             ))}
@@ -139,7 +156,7 @@ const AdminDashboard = () => {
         </table>
       </section>
 
-      {/* ✅ Modal */}
+      {/* ✅ MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -151,6 +168,15 @@ const AdminDashboard = () => {
               value={newMember.name}
               onChange={(e) =>
                 setNewMember({ ...newMember, name: e.target.value })
+              }
+            />
+
+            <input
+              type="text"
+              placeholder="Relationship (Father, Mother, etc.)"
+              value={newMember.relationship}
+              onChange={(e) =>
+                setNewMember({ ...newMember, relationship: e.target.value })
               }
             />
 

@@ -7,13 +7,10 @@ const FamilyChoice = () => {
   const navigate = useNavigate();
 
   return (
-    
     <div className="family-choice-container">
-        
-
       <h1 className="family-choice-title">Choose Your Path</h1>
       <p className="family-choice-subtitle">
-        Create a new family or join an existing one
+        Create a new family 
       </p>
 
       <div className="family-choice-grid">
@@ -35,27 +32,6 @@ const FamilyChoice = () => {
             onClick={() => navigate("/create-family")}
           >
             Create Family
-          </button>
-        </div>
-
-        {/* Join a Family */}
-        <div className="family-card join">
-          <UserPlus className="family-icon" />
-          <h2>Join a Family</h2>
-          <p>
-            Enter a family token to join an existing security system
-          </p>
-          <ul>
-            <li>✓ Enter family token or URL</li>
-            <li>✓ Request admin approval</li>
-            <li>✓ Record your voice samples</li>
-            <li>✓ Get secure access</li>
-          </ul>
-          <button
-            className="family-btn join-btn"
-            onClick={() => navigate("/join-family")}
-          >
-            Join Family
           </button>
         </div>
       </div>

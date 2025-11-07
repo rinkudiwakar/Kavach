@@ -7,7 +7,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import FamilyChoice from "./pages/FamilyChoice";
 import CreateFamily from "./pages/CreateFamily";
-import JoinFamily from "./pages/JoinFamily";
+
 import VoiceSetup from "./pages/VoiceSetup";
 import MemberDashboard from "./pages/MemberDashboard";
 import FamilyDashboard from "./pages/FamilyDashboard";
@@ -35,7 +35,7 @@ const App = () => {
         {/* 👨‍👩‍👧 Family Management */}
         <Route path="/family-choice" element={<FamilyChoice />} />
         <Route path="/create-family" element={<CreateFamily />} />
-        <Route path="/join-family" element={<JoinFamily />} />
+       
         <Route path="/family-dashboard" element={<FamilyDashboard />} />
 
         {/* 🎤 Voice Setup and Testing */}
