@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Shield, Key, Mic } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import "../css/CreateFamily.css";
+import "./CreateFamily.css";
 
 const CreateFamily = () => {
   const [familyToken] = useState("z7zgmcif3a"); // Example token (can be generated dynamically later)

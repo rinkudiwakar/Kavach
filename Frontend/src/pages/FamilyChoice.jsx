@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Users, UserPlus } from "lucide-react";
-import "../css/FamilyChoice.css";
+import "./FamilyChoice.css";
 
 const FamilyChoice = () => {
   const navigate = useNavigate();

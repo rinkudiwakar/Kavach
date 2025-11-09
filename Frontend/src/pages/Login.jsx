@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/Auth.css";
+import "./Auth.css";
 import {login, saveToken} from "../../apis/api";
 import Cookies from "js-cookie";
 
