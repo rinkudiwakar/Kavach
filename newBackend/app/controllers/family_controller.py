@@ -141,11 +141,28 @@ def add_member():
 
 @jwt_required()
 def get_family_members():
- family_id = get_jwt_identity()
- family = FamilyAdmin.objects(id=family_id).first()
- if not family:
-    return jsonify({"error": "Family not found"}), 404  # 404 Not Found HTTP status code
- return jsonify({"members": family.members}), 200        
+    family = FamilyAdmin.objects().first()
+    if not family:
+        return jsonify({"members": [], "error": "Family not found"}), 404
+
+    raw = family.to_mongo().to_dict()
+
+    # convert top-level _id
+    raw["_id"] = str(raw["_id"])
+
+    # convert per-member _id / datetimes if present and optionally remove embedding
+    for member in raw.get("members", []):
+        if "_id" in member:
+            member["_id"] = str(member["_id"])
+        if "created_at" in member and hasattr(member["created_at"], "isoformat"):
+            member["created_at"] = member["created_at"].isoformat()
+        if "last_access" in member and hasattr(member["last_access"], "isoformat"):
+            member["last_access"] = member["last_access"].isoformat()
+        # OPTIONALLY remove huge binary-like fields to reduce payload:
+        if "embedding" in member:
+            member.pop("embedding", None)
+
+    return jsonify(raw), 200       
 
 # def verify():
     # """
