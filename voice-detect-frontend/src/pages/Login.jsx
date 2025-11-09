@@ -14,7 +14,7 @@ const Login = () => {
       const res = await login({ email, password });
       if (res.token) {
         saveToken(res.token);
-        navigate("/dashboard/admin");
+        navigate("/dashboard/admin"); // or adjust based on role
       } else {
         alert(res.error || "Login failed");
       }

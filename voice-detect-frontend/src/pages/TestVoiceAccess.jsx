@@ -1,65 +1,56 @@
-import React, { useState } from "react";
-import { Mic } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import "./TestVoiceAccess.css";
+import { verifyVoice } from "../lib/api";
+import { useNavigate } from "react-router-dom";
 
 const TestVoiceAccess = () => {
   const [isRecording, setIsRecording] = useState(false);
+  const mediaRef = useRef(null);
+  const chunksRef = useRef([]);
   const navigate = useNavigate();
 
-  const handleMicClick = () => {
+  const start = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mr = new MediaRecorder(stream);
+    mediaRef.current = mr;
+    chunksRef.current = [];
+    mr.ondataavailable = (e) => chunksRef.current.push(e.data);
+    mr.onstop = async () => {
+      const blob = new Blob(chunksRef.current, { type: chunksRef.current[0]?.type || "audio/webm" });
+      const file = new File([blob], "verify.webm", { type: blob.type });
+      try {
+        const res = await verifyVoice(file);
+        alert(JSON.stringify(res));
+      } catch (err) {
+        alert("Verify failed");
+        console.error(err);
+      }
+    };
+    mr.start();
     setIsRecording(true);
-    setTimeout(() => setIsRecording(false), 2000);
   };
 
-  const handleBack = () => {
-    navigate("/dashboard/member");
+  const stop = () => {
+    mediaRef.current?.stop();
+    setIsRecording(false);
   };
+
+  const handleBack = () => navigate("/dashboard/member");
 
   return (
     <div className="voice-test-container">
       <h1>Test Voice Access</h1>
       <p>Verify your voice authentication</p>
 
-      {/* Voice Test Card */}
       <div className="voice-card">
-        <div
-          className={`mic-circle ${isRecording ? "recording" : ""}`}
-          onClick={handleMicClick}
-        >
-          <Mic size={40} />
+        <div className={`mic-circle ${isRecording ? "recording" : ""}`} onMouseDown={start} onMouseUp={stop}>
+          🎤
         </div>
         <h2>{isRecording ? "Listening..." : "Ready to Test"}</h2>
-        <p>Click the microphone to start voice verification</p>
+        <p>Hold the microphone button to record and verify</p>
       </div>
 
-      {/* Info Section */}
-      <div className="info-section">
-        <div className="tips">
-          <h3>Tips for Better Recognition</h3>
-          <ul>
-            <li>Speak in a quiet environment</li>
-            <li>Use your natural voice tone</li>
-            <li>Maintain consistent distance from mic</li>
-            <li>Speak clearly and at normal speed</li>
-          </ul>
-        </div>
-
-        <div className="stats">
-          <h3>Your Voice Stats</h3>
-          <ul>
-            <li>Samples Recorded: 20/20</li>
-            <li>Verification Rate: 95%</li>
-            <li>Last Updated: 2 days ago</li>
-            <li>Status: Active</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Back Button */}
-      <button className="back-btn" onClick={handleBack}>
-        ⬅ Back to Member Dashboard
-      </button>
+      <button className="back-btn" onClick={handleBack}>⬅ Back to Member Dashboard</button>
     </div>
   );
 };
