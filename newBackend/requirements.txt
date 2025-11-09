@@ -5,3 +5,14 @@ flask-jwt-extended
 resemblyzer
 numpy
 flask-cors
+
+Werkzeug==2.3.7
+
+
+vosk 
+numpy 
+pydub 
+soundfile 
+webrtcvad 
+pymongo 
+python-dotenv
