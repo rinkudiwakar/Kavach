@@ -1,6 +1,6 @@
 from flask import Blueprint
 from .controllers.auth_controller import register_admin, login_admin
-from .controllers.family_controller import add_member, verify
+from .controllers.family_controller import add_member, verify, get_family_members
 
 def register_routes(app):
     auth_bp = Blueprint("auth", __name__)
@@ -11,6 +11,8 @@ def register_routes(app):
     family_bp.route("/add-member", methods=["POST"])(add_member)
     # family_bp.route("/add-voice", methods=["POST"])(add_voice_sample)
     family_bp.route("/verify", methods=["POST"])(verify)
+    family_bp.route("/members", methods=["GET"])(get_family_members)
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(family_bp, url_prefix="/api/family")
+    

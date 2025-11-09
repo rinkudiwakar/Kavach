@@ -139,6 +139,13 @@ def add_member():
         return jsonify({"error": str(e)}), 500
 
 
+@jwt_required()
+def get_family_members():
+ family_id = get_jwt_identity()
+ family = FamilyAdmin.objects(id=family_id).first()
+ if not family:
+    return jsonify({"error": "Family not found"}), 404  # 404 Not Found HTTP status code
+ return jsonify({"members": family.members}), 200        
 
 # def verify():
     # """
@@ -267,3 +274,5 @@ def verify():
         return jsonify({"error": str(e)}), 500
     except Exception as e:
         return jsonify({"error": f"Voice verification failed: {e}"}), 500
+    
+

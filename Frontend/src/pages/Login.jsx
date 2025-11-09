@@ -2,26 +2,48 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Auth.css";
 import {login, saveToken} from "../../apis/api";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await login({ email, password });
-      if (res.token) {
-        saveToken(res.token);
-        navigate("/dashboard/admin"); // or adjust based on role
-      } else {
-        alert(res.error || "Login failed");
-      }
-    } catch (err) {
-      alert(err.data?.error || "Login failed");
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.token) {
+      // Store JWT in cookies (expires in 7 days)
+      Cookies.set("token", data.token, {
+        expires: 7, // days
+        secure: window.location.protocol === "https:", // only send over HTTPS
+        sameSite: "strict", // prevent CSRF
+      });
+
+      // Redirect to dashboard
+      navigate("/dashboard/admin");
+    } else {
+      alert(data.error || "Login failed");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Login failed. Please check your connection or credentials.");
+  }
+};
+
+
 
   return (
     <div className="auth-container">
