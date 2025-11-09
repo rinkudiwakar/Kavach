@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/Auth.css";
+import "./Auth.css";
 
 const Signup = () => {
   const navigate = useNavigate();
