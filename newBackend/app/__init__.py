@@ -8,7 +8,14 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    CORS(app, origins=["http://localhost:5173"])
+    # Allow the frontend origin and explicitly permit the Authorization header
+    # so the browser will send the Authorization: Bearer <token> header on requests.
+    CORS(app,
+        origins=["http://localhost:5173"],
+        supports_credentials=True,
+        resources={r"/api/*": {"origins": "http://localhost:5173"}},
+        allow_headers=["Content-Type", "Authorization"]
+    )
     
     bcrypt.init_app(app)
     jwt.init_app(app)
