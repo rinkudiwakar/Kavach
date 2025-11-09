@@ -208,8 +208,8 @@ const AdminDashboard = () => {
               <th>Name</th>
               <th>Keyword</th>
               <th>Status</th>
-              <th>Total Unlocks</th>
-              <th>Actions</th>
+              {/* <th>Total Unlocks</th>
+              <th>Actions</th> */}
             </tr>
           </thead>
 
@@ -223,20 +223,20 @@ const AdminDashboard = () => {
                     {member.status}
                   </span>
                 </td>
-                <td>{member.unlocks}</td>
+                {/* <td>{member.unlocks}</td> */}
                 <td style={{ display: "flex", gap: "8px" }}>
-                  <button className="edit">
+                  {/* <button className="edit">
                     <Edit size={12} /> Edit
                   </button>
                   <button className="remove">
                     <Trash2 size={12} /> Remove
-                  </button>
-                  <button
+                  </button> */}
+                  {/* <button
                     className="approve"
                     onClick={() => increaseUnlock(index)}
                   >
                     + Unlock
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             ))}
