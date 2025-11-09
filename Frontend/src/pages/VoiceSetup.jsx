@@ -1,115 +1,68 @@
-import React, { useState } from "react";
-import { Mic } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // ✅ import navigation
+import React, { useRef, useState } from "react";
 import "./VoiceSetup.css";
-
-const sentences = [
-  "The quick brown fox jumps over the lazy dog.",
-  "Security begins with your voice.",
-  "Kavach protects your family anytime, anywhere.",
-  "Say hello to smart home protection.",
-  "Your voice is your unique key.",
-  "Technology meets trust with Kavach.",
-  "Speak to unlock a safer world.",
-  "Guardians listen when you speak.",
-  "Authentication made easy and secure.",
-  "Protecting your home with your command.",
-];
+import { addMember, uploadVoiceSample } from "../lib/api";
+import { useNavigate } from "react-router-dom";
 
 const VoiceSetup = () => {
-  const totalSamples = 10;
-  const [currentSample, setCurrentSample] = useState(1);
-  const [recordedSamples, setRecordedSamples] = useState([]);
+  const [memberId, setMemberId] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-  const navigate = useNavigate(); // ✅ hook for navigation
+  const mediaRef = useRef(null);
+  const chunksRef = useRef([]);
+  const navigate = useNavigate();
 
-  const handleRecord = () => {
-    setIsRecording(true);
-    setTimeout(() => {
-      setIsRecording(false);
-      setRecordedSamples((prev) =>
-        prev.includes(currentSample) ? prev : [...prev, currentSample]
-      );
-    }, 1500); // Simulate recording
-  };
-
-  const handleNext = () => {
-    if (currentSample < totalSamples) setCurrentSample((prev) => prev + 1);
-  };
-
-  const handlePrev = () => {
-    if (currentSample > 1) setCurrentSample((prev) => prev - 1);
-  };
-
-  const handleUpload = () => {
-    if (recordedSamples.length < totalSamples) {
-      alert("Please record all samples before uploading.");
-      return;
+  const createMember = async () => {
+    try {
+      const res = await addMember({ name: "Test Member", keyword: "" });
+      if (res.member_id) {
+        setMemberId(res.member_id);
+        alert("Member created: " + res.member_id);
+      } else {
+        alert("Create member failed");
+      }
+    } catch {
+      alert("Create member error");
     }
-    alert("All samples uploaded successfully!");
-    navigate("/dashboard/member"); // ✅ navigate to member dashboard
   };
 
-  const progress = (recordedSamples.length / totalSamples) * 100;
+  const start = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mr = new MediaRecorder(stream);
+    mediaRef.current = mr;
+    chunksRef.current = [];
+    mr.ondataavailable = (e) => chunksRef.current.push(e.data);
+    mr.onstop = async () => {
+      const blob = new Blob(chunksRef.current, { type: chunksRef.current[0]?.type || "audio/webm" });
+      const file = new File([blob], "sample.webm", { type: blob.type });
+      if (!memberId) {
+        alert("Create a member first");
+        return;
+      }
+      try {
+        await uploadVoiceSample(memberId, file);
+        alert("Upload done");
+      } catch (err) {
+        alert("Upload failed");
+        console.error(err);
+      }
+    };
+    mr.start();
+    setIsRecording(true);
+  };
+
+  const stop = () => {
+    mediaRef.current?.stop();
+    setIsRecording(false);
+  };
 
   return (
     <div className="voice-container">
-      {/* Header */}
-      <div className="voice-header">
-        <h1>Voice Sample Recording</h1>
-        <p>Record {totalSamples} voice samples for accurate authentication</p>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="progress-bar">
-        <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-      </div>
-
-      {/* Recording Section */}
-      <div className="record-box">
-        <p className="sample-text">
-          Sample {currentSample} of {totalSamples}
-        </p>
-
-        <div className="sentence-box">“{sentences[currentSample - 1]}”</div>
-
-        <button
-          className={`record-btn ${isRecording ? "recording" : ""}`}
-          onClick={handleRecord}
-        >
-          <Mic size={32} />
-        </button>
-
-        <div className="nav-btns">
-          <button onClick={handlePrev} disabled={currentSample === 1}>
-            Previous
-          </button>
-          <button onClick={handleNext} disabled={currentSample === totalSamples}>
-            Next
-          </button>
-        </div>
-      </div>
-
-      {/* Sample Dots */}
-      <div className="sample-status">
-        {Array.from({ length: totalSamples }, (_, i) => (
-          <div
-            key={i}
-            className={`sample-dot ${
-              recordedSamples.includes(i + 1)
-                ? "active"
-                : currentSample === i + 1
-                ? "current"
-                : ""
-            }`}
-          ></div>
-        ))}
-      </div>
-
-      {/* Upload Button */}
-      <button className="upload-btn" onClick={handleUpload}>
-        Upload All Samples ({recordedSamples.length}/{totalSamples})
+      <h1>Quick Voice Setup</h1>
+      <button onClick={createMember}>Create Member</button>
+      <div>Member ID: {memberId}</div>
+      <button onMouseDown={start} onMouseUp={stop}>
+        {isRecording ? "Recording..." : "Hold to Record"}
       </button>
+      <button onClick={() => navigate("/dashboard/member")}>Done</button>
     </div>
   );
 };
