@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useNavigate } from "react-router-dom";
-import "./FamilyDashboard.css";
+import "../css/FamilyDashboard.css";
 
 const FamilyDashboard = () => {
   const navigate = useNavigate();

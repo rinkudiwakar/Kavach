@@ -1,7 +1,7 @@
 import React from "react";
 import { Lock, Shield, Users, AlertTriangle, Mic, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
+import "../css/Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();

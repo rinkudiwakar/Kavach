@@ -8,7 +8,7 @@ import {
   Activity,
   ArrowLeft,
 } from "lucide-react";
-import "./SystemDashboard.css";
+import "../css/SystemDashboard.css";
 
 const SystemDashboard = () => {
   const navigate = useNavigate();

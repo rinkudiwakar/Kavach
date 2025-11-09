@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Auth.css";
+import "../css/Auth.css";
 import {login, saveToken} from "../../apis/api";
 
 const Login = () => {

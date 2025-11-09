@@ -1,7 +1,7 @@
 import React from "react";
 import { Lock, Shield, Users, Mic, Activity, Server, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import "./MemberDashboard.css";
+import "../css/MemberDashboard.css";
 
 const MemberDashboard = () => {
   const navigate = useNavigate();

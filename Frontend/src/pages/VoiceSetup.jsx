@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import "./VoiceSetup.css";
+import "../css/VoiceSetup.css";
 import { addMember, uploadVoiceSample } from "../../apis/api.js";
 import { useNavigate } from "react-router-dom";
 
