@@ -5,14 +5,36 @@ import sounddevice as sd
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 import time
+import pickle
+from pathlib import Path
 
 from voice_authenticator import VoiceAuthenticator
 from rhino import process_wav_for_intent  # Your Rhino utility
 
-
+# ==========================
+# Fusion Pipeline
+# ==========================
 class FusionPipeline:
-    def __init__(self, enrollment_path, embed_save_path):
-        self.authenticator = VoiceAuthenticator(enrollment_path, embed_save_path)
+    def __init__(self, embed_save_path="saved_embeddings"):
+        """
+        Initialize FusionPipeline by loading embeddings from local storage.
+        """
+        self.embed_save_path = Path(embed_save_path)
+        self.authenticator = VoiceAuthenticator(enrollment_path=None, embed_save_path=embed_save_path)
+        # Load embeddings for all users
+        self.authenticator.speaker_embeds = self.load_embeddings_from_local()
+
+    def load_embeddings_from_local(self):
+        """
+        Load all user embeddings from local saved_embeddings folder.
+        Returns a dict: {username: embedding}
+        """
+        speaker_embeds = {}
+        for file in self.embed_save_path.glob("*_embed.pkl"):
+            username = file.stem.replace("_embed", "")
+            with open(file, "rb") as f:
+                speaker_embeds[username] = pickle.load(f)
+        return speaker_embeds
 
     def run(self, audio_input):
         """
@@ -52,6 +74,9 @@ class FusionPipeline:
         return {"rhino": rhino_result, "voice_auth": voice_result}
 
 
+# ==========================
+# Record audio helper
+# ==========================
 def record_audio(duration=7, samplerate=16000):
     """
     Record live audio from mic with countdown
@@ -68,14 +93,21 @@ def record_audio(duration=7, samplerate=16000):
     print("✅ Recording complete.")
     return recording.flatten()
 
+
+# ==========================
+# Get intent helper
+# ==========================
 def get_intent(duration=3):
-    pipeline= FusionPipeline(
-        enrollment_path="../../dataset/enrollment",
-        embed_save_path="saved_embeddings"
-    )
-    audio_input=record_audio(duration)
-    result=pipeline.run(audio_input)
+    pipeline = FusionPipeline(embed_save_path="saved_embeddings")
+    audio_input = record_audio(duration)
+    result = pipeline.run(audio_input)
     return result
 
 
-
+# ==========================
+# Example usage
+# ==========================
+if __name__ == "__main__":
+    result = get_intent(duration=5)
+    print("\n🔹 Fusion Pipeline Result:")
+    print(result)

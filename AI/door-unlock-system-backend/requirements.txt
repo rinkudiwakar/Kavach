@@ -4,7 +4,7 @@ scipy>=1.7.0
 
 # Audio processing
 pydub>=0.25.1
-wave>=0.0.2
+
 
 # Voice embedding
 resemblyzer>=0.1.1.dev0
