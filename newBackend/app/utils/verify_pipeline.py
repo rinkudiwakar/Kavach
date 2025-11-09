@@ -369,7 +369,7 @@ if __name__ == "__main__":
     RES = verify_voice(
         audio="user_clip.mp3",  # <- change to your test file
         vosk_model_path=os.getenv("VOSK_MODEL_PATH", r"C:\models\vosk-model-small-en-us-0.15"),
-        speaker_threshold=0.80,
+        speaker_threshold=0.65,
         min_kws_conf=0.70,
     )
     print(json.dumps(RES, indent=2))

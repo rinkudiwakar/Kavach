@@ -272,7 +272,7 @@ def verify():
 
     try:
         min_kws_conf = float(request.values.get("min_kws_conf", 0.70))
-        speaker_threshold = float(request.values.get("speaker_threshold", 0.80))
+        speaker_threshold = float(request.values.get("speaker_threshold", 0.65))
     except ValueError:
         raise BadRequest("min_kws_conf and speaker_threshold must be numbers.")
 
