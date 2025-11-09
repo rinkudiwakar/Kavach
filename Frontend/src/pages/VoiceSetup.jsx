@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./VoiceSetup.css";
-import { addMember, uploadVoiceSample } from "../lib/api";
+import { addMember, uploadVoiceSample } from "../../apis/api.js";
 import { useNavigate } from "react-router-dom";
 
 const VoiceSetup = () => {

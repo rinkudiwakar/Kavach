@@ -139,6 +139,30 @@ def add_member():
         return jsonify({"error": str(e)}), 500
 
 
+@jwt_required()
+def get_family_members():
+    family = FamilyAdmin.objects().first()
+    if not family:
+        return jsonify({"members": [], "error": "Family not found"}), 404
+
+    raw = family.to_mongo().to_dict()
+
+    # convert top-level _id
+    raw["_id"] = str(raw["_id"])
+
+    # convert per-member _id / datetimes if present and optionally remove embedding
+    for member in raw.get("members", []):
+        if "_id" in member:
+            member["_id"] = str(member["_id"])
+        if "created_at" in member and hasattr(member["created_at"], "isoformat"):
+            member["created_at"] = member["created_at"].isoformat()
+        if "last_access" in member and hasattr(member["last_access"], "isoformat"):
+            member["last_access"] = member["last_access"].isoformat()
+        # OPTIONALLY remove huge binary-like fields to reduce payload:
+        if "embedding" in member:
+            member.pop("embedding", None)
+
+    return jsonify(raw), 200       
 
 # def verify():
     # """
@@ -248,7 +272,7 @@ def verify():
 
     try:
         min_kws_conf = float(request.values.get("min_kws_conf", 0.70))
-        speaker_threshold = float(request.values.get("speaker_threshold", 0.80))
+        speaker_threshold = float(request.values.get("speaker_threshold", 0.65))
     except ValueError:
         raise BadRequest("min_kws_conf and speaker_threshold must be numbers.")
 
@@ -267,3 +291,5 @@ def verify():
         return jsonify({"error": str(e)}), 500
     except Exception as e:
         return jsonify({"error": f"Voice verification failed: {e}"}), 500
+    
+

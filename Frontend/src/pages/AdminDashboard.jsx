@@ -1,66 +1,149 @@
-import React, { useState } from "react";
-import {
-  Shield,
-  Edit,
-  Trash2,
-  Download,
-  PlusCircle,
-} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Shield, Edit, Trash2, Download, PlusCircle } from "lucide-react";
 import "../css/AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
+const MAX_FILE_MB = 12; // Max upload size (MB)
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  // ✅ Family Members (default admin)
-  const [familyMembers, setFamilyMembers] = useState([
-    { name: "Rinku (You)", relationship: "You", status: "Active", unlocks: 2},
-  ]);
+  // ✅ Family members fetched from backend
+  const [familyMembers, setFamilyMembers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Modal
+  // Modal state
   const [showModal, setShowModal] = useState(false);
   const [newMember, setNewMember] = useState({
     name: "",
-    relationship: "",
-    voice1: null,
-    voice2: null,
-    voice3: null,
+    keyword: "",
+    audio1: null,
+    audio2: null,
+    audio3: null,
   });
+  const [adding, setAdding] = useState(false);
 
-  // ✅ Add New Member
-  const handleAddMember = () => {
+  // ✅ Fetch family members
+  useEffect(() => {
+    const fetchMembers = async () => {
+      setLoading(true);
+      try {
+        const token = Cookies.get("token");
+        const res = await fetch("http://localhost:5000/api/family/members", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || `Failed to fetch (${res.status})`);
+        }
+
+        const data = await res.json();
+        const membersArr = Array.isArray(data) ? data : data.members || [];
+
+        const normalized = membersArr.map((m) => ({
+          name: m.name || "Unknown",
+          keyword: m.keyword || "open",
+          status: m.status || "Active",
+          unlocks: typeof m.unlocks === "number" ? m.unlocks : 0,
+        }));
+
+        setFamilyMembers(normalized);
+      } catch (err) {
+        console.error("Fetch members error:", err);
+        setError(err.message || "Failed to load members");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
+  // ✅ Helper — Check File Size
+  const fileTooLarge = (file) => file && file.size / 1024 / 1024 > MAX_FILE_MB;
+
+  // ✅ Add Member
+  const handleAddMember = async () => {
     if (
       !newMember.name ||
-      !newMember.relationship ||
-      !newMember.voice1 ||
-      !newMember.voice2 ||
-      !newMember.voice3
+      !newMember.keyword ||
+      !newMember.audio1 ||
+      !newMember.audio2 ||
+      !newMember.audio3
     ) {
-      alert("Please enter name, relationship, and upload all 3 voice samples!");
+      alert("Please fill in name, keyword, and upload all 3 voice samples!");
       return;
     }
 
-    setFamilyMembers([
-      ...familyMembers,
-      {
-        name: newMember.name,
-        relationship: newMember.relationship,
-        status: "Active",
-        unlocks: 0,
-      },
-    ]);
+    if (
+      fileTooLarge(newMember.audio1) ||
+      fileTooLarge(newMember.audio2) ||
+      fileTooLarge(newMember.audio3)
+    ) {
+      alert(`Each file must be ≤ ${MAX_FILE_MB} MB`);
+      return;
+    }
 
-    setNewMember({
-      name: "",
-      relationship: "",
-      voice1: null,
-      voice2: null,
-      voice3: null,
-    });
-    setShowModal(false);
+    try {
+      setAdding(true);
+      const token = Cookies.get("token");
+
+      const form = new FormData();
+      form.append("name", newMember.name);
+      form.append("keyword", newMember.keyword || "open");
+      form.append("audio1", newMember.audio1);
+      form.append("audio2", newMember.audio2);
+      form.append("audio3", newMember.audio3);
+
+      const res = await fetch("http://localhost:5000/api/family/add-member", {
+        method: "POST",
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: form,
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to add member (${res.status})`);
+      }
+
+      const created = await res.json();
+
+      const newEntry = {
+        name: created.name || newMember.name,
+        keyword: created.keyword || newMember.keyword,
+        status: created.status || "Active",
+        unlocks: created.unlocks ?? 0,
+      };
+
+      setFamilyMembers((prev) => [...prev, newEntry]);
+
+      // Reset modal
+      setNewMember({
+        name: "",
+        keyword: "",
+        audio1: null,
+        audio2: null,
+        audio3: null,
+      });
+      setShowModal(false);
+    } catch (err) {
+      console.error("Add member error:", err);
+      alert(err.message || "Failed to add member");
+    } finally {
+      setAdding(false);
+    }
   };
 
-  // ✅ Increase Unlock Count Dynamically
+  // ✅ Increment Unlock Counter
   const increaseUnlock = (index) => {
     const updated = [...familyMembers];
     updated[index].unlocks += 1;
@@ -69,8 +152,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-
-      {/* NAVBAR */}
+      {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-left">
           <Shield className="navbar-icon" />
@@ -81,17 +163,16 @@ const AdminDashboard = () => {
           <button className="login-btn" onClick={() => navigate("/login")}>
             Login
           </button>
-
           <button className="get-started-small" onClick={() => navigate("/login")}>
             Get Started
           </button>
         </div>
       </nav>
 
-      {/* HEADER */}
+      {/* Header */}
       <header className="dashboard-header">
         <h1 className="dashboard-title">Admin Dashboard</h1>
-        <p className="dashboard-subtitle">Manage registered members</p>
+        <p className="dashboard-subtitle">Manage family voice access</p>
 
         <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
           <button
@@ -107,10 +188,15 @@ const AdminDashboard = () => {
         </div>
       </header>
 
-      {/* ✅ FAMILY MEMBERS TABLE */}
+      {loading && <p style={{ padding: 16 }}>Loading members...</p>}
+      {error && <p style={{ color: "red", padding: 16 }}>{error}</p>}
+
+      {/* Members Table */}
       <section className="section small-section">
         <div className="section-header compact-header">
-          <h2><Shield size={18} /> Family Members</h2>
+          <h2>
+            <Shield size={18} /> Family Members
+          </h2>
           <button className="export-btn">
             <Download size={14} /> Export Report
           </button>
@@ -120,10 +206,10 @@ const AdminDashboard = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Relationship</th>
+              <th>Keyword</th>
               <th>Status</th>
-              <th>Total Unlocks</th>
-              <th>Actions</th>
+              {/* <th>Total Unlocks</th>
+              <th>Actions</th> */}
             </tr>
           </thead>
 
@@ -131,24 +217,26 @@ const AdminDashboard = () => {
             {familyMembers.map((member, index) => (
               <tr key={index}>
                 <td>{member.name}</td>
-                <td>{member.relationship}</td>
+                <td>{member.keyword}</td>
                 <td>
                   <span className={`status ${member.status.toLowerCase()}`}>
                     {member.status}
                   </span>
                 </td>
-
-                <td>{member.unlocks}</td>
-
+                {/* <td>{member.unlocks}</td> */}
                 <td style={{ display: "flex", gap: "8px" }}>
-                  <button className="edit"><Edit size={12} /> Edit</button>
-                  <button className="remove"><Trash2 size={12} /> Remove</button>
-                  <button
+                  {/* <button className="edit">
+                    <Edit size={12} /> Edit
+                  </button>
+                  <button className="remove">
+                    <Trash2 size={12} /> Remove
+                  </button> */}
+                  {/* <button
                     className="approve"
                     onClick={() => increaseUnlock(index)}
                   >
                     + Unlock
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             ))}
@@ -156,7 +244,7 @@ const AdminDashboard = () => {
         </table>
       </section>
 
-      {/* ✅ MODAL */}
+      {/* Add Member Modal */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -173,50 +261,66 @@ const AdminDashboard = () => {
 
             <input
               type="text"
-              placeholder="Relationship (Father, Mother, etc.)"
-              value={newMember.relationship}
+              placeholder="Keyword (e.g. open)"
+              value={newMember.keyword}
               onChange={(e) =>
-                setNewMember({ ...newMember, relationship: e.target.value })
+                setNewMember({ ...newMember, keyword: e.target.value })
               }
             />
 
-            <label>Upload Voice Sample 1:</label>
+            <label>Upload Voice Sample 1 (.wav/.mp4):</label>
             <input
               type="file"
-              accept="audio/*"
+              accept="audio/*,video/mp4"
               onChange={(e) =>
-                setNewMember({ ...newMember, voice1: e.target.files[0] })
+                setNewMember({ ...newMember, audio1: e.target.files[0] })
               }
             />
 
-            <label>Upload Voice Sample 2:</label>
+            <label>Upload Voice Sample 2 (.wav/.mp4):</label>
             <input
               type="file"
-              accept="audio/*"
+              accept="audio/*,video/mp4"
               onChange={(e) =>
-                setNewMember({ ...newMember, voice2: e.target.files[0] })
+                setNewMember({ ...newMember, audio2: e.target.files[0] })
               }
             />
 
-            <label>Upload Voice Sample 3:</label>
+            <label>Upload Voice Sample 3 (.wav/.mp4):</label>
             <input
               type="file"
-              accept="audio/*"
+              accept="audio/*,video/mp4"
               onChange={(e) =>
-                setNewMember({ ...newMember, voice3: e.target.files[0] })
+                setNewMember({ ...newMember, audio3: e.target.files[0] })
               }
             />
 
             <div className="modal-actions">
-              <button onClick={handleAddMember}>Add Member</button>
-              <button className="cancel" onClick={() => setShowModal(false)}>
+              <button onClick={handleAddMember} disabled={adding}>
+                {adding ? "Adding..." : "Add Member"}
+              </button>
+              <button
+                className="cancel"
+                onClick={() => {
+                  setShowModal(false);
+                  setNewMember({
+                    name: "",
+                    keyword: "",
+                    audio1: null,
+                    audio2: null,
+                    audio3: null,
+                  });
+                }}
+              >
                 Cancel
               </button>
             </div>
+            <p style={{ fontSize: 12, marginTop: 8 }}>
+              Max file size: {MAX_FILE_MB} MB per file.
+            </p>
           </div>
         </div>
       )}
-
     </div>
   );
 };
