@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
-import {login, saveToken} from "../lib/api";
+import {login, saveToken} from "../../apis/api";
 
 const Login = () => {
   const navigate = useNavigate();
