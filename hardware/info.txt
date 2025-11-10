@@ -1,1 +1,0 @@
-work on hardware and document all the info needed to host on respberry pi and also to design how servo motor, lcd , led , speaker, and mic will work 

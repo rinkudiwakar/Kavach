@@ -26,3 +26,7 @@ def login_admin():
 
     token = generate_jwt(identity=str(family.id))
     return jsonify({"token": token, "family_name": family.family_name})
+
+
+
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2MjY3MTI0MiwianRpIjoiY2UwMTM3NTQtODcyNy00MGQ3LWE5NGUtNmFjNWVkY2M4NTlhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjY5MTAzOThiZDc1N2ZhZmUwM2QzMTJhNiIsIm5iZiI6MTc2MjY3MTI0MiwiY3NyZiI6IjU3NjJiMjE2LTY4NWYtNGEwMy05ZTc4LTgyMWY0NjZhZDFjMCIsImV4cCI6MTc2Mjc1NzY0Mn0.0l1-3akNvI0aaNZhmHCEAdtJuUFERYLJIEXB-mArmiU

@@ -1,8 +1,0 @@
-flask
-flask-cors
-pymongo
-flask-bcrypt
-pyjwt
-python-dotenv
-soundfile
-resemblyzer
