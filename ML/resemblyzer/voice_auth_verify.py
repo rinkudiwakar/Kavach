@@ -28,8 +28,8 @@ TEST_PATH = Path("..", "..", "dataset", "test")         # test audios
 EMBED_SAVE_PATH = Path("saved_embeddings1")               # cache embeddings
 EMBED_SAVE_PATH.mkdir(exist_ok=True)
 
-THRESHOLD = 0.83 # 🔹 Revised: slightly higher, suitable for embed_speaker()
-RESULT_CSV = Path("verification_results2csv")
+THRESHOLD = 0.8 # 🔹 Revised: slightly higher, suitable for embed_speaker()
+RESULT_CSV = Path("verification_resultscsv")
 
 
 # =========================================================
