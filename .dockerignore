@@ -1,0 +1,46 @@
+# -------------------------------------------------------------------
+# Ignore everything by default
+# -------------------------------------------------------------------
+*
+
+# -------------------------------------------------------------------
+# Allow only backend code to be copied
+# -------------------------------------------------------------------
+!newBackend/
+!newBackend/**
+!entrypoint.sh
+!Dockerfile
+
+# -------------------------------------------------------------------
+# Exclude unwanted files even inside newBackend (optional)
+# -------------------------------------------------------------------
+newBackend/__pycache__/
+newBackend/**/*.pyc
+newBackend/.vscode/
+newBackend/.idea/
+newBackend/.env
+newBackend/*.log
+newBackend/venv/
+newBackend/node_modules/
+
+# -------------------------------------------------------------------
+# Always ignore sensitive or heavy files
+# -------------------------------------------------------------------
+.env
+*.log
+*.tar
+*.zip
+*.gz
+*.mp4
+*.mkv
+*.mp3
+__pycache__/
+.vscode/
+.idea/
+.git/
+.gitignore
+node_modules/
+dataset/
+backup/
+temp/
+cache/

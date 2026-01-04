@@ -1,0 +1,63 @@
+# docker-compose.yml
+# Updated to properly mount entrypoint.sh into /app
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: voice_auth_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Default environment variables; override using .env
+      - FLASK_ENV=${FLASK_ENV:-production}
+      - MONGO_URI=${MONGO_URI:-mongodb://mongo:27017/voice_auth_db}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-change_me}
+      - DATASET_DIR=/app/dataset
+      - VOSK_MODEL_PATH=/app/models/vosk-model-small-en-us-0.15
+    ports:
+      - "5000:5000"
+    volumes:
+      # Mount app code (editable during development)
+      - ./newBackend:/app:cached
+
+      # Mount models folder from repo for VOSK or others
+      - ./newBackend/models:/app/models:cached
+
+      # Persist enrolled audio files
+      - ./dataset/enrolment:/app/dataset/enrolment
+
+      # Mount entrypoint.sh explicitly so it’s not hidden by the /app mount
+      - ./entrypoint.sh:/app/entrypoint.sh:ro
+
+      # Optional logs folder
+      #- ./logs:/app/logs
+
+    depends_on:
+      - mongo
+
+    # Uncomment if you have a /health endpoint
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+    #   interval: 30s
+    #   timeout: 5s
+    #   retries: 3
+
+  mongo:
+    image: mongo:6.0
+    container_name: voice_auth_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo_data:

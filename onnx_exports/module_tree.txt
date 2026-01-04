@@ -1,0 +1,4 @@
+''                                       : <class 'resemblyzer.voice_encoder.VoiceEncoder'>
+'lstm'                                   : <class 'torch.nn.modules.rnn.LSTM'>
+'linear'                                 : <class 'torch.nn.modules.linear.Linear'>
+'relu'                                   : <class 'torch.nn.modules.activation.ReLU'>

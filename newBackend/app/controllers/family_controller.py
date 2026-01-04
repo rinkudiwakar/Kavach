@@ -11,11 +11,24 @@ import numpy as np
 import uuid
 import os
 import traceback
+import os
 
-VOSK_MODEL_PATH = os.getenv("VOSK_MODEL_PATH", r"C:\Users\saksh\vosk-model-small-en-us-0.15\vosk-model-small-en-us-0.15")
+# Base directory = project root (two levels up from controllers)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+
+# Default Vosk model path relative to project
+VOSK_MODEL_PATH = os.path.join(BASE_DIR, "models", "vosk-model-small-en-us-0.15")
+
+# Read from env (for Docker override)
+# VOSK_MODEL_PATH = os.getenv("VOSK_MODEL_PATH", DEFAULT_VOSK_MODEL_PATH)
+
+
+
+# VOSK_MODEL_PATH = os.getenv("VOSK_MODEL_PATH", r"\newBackend\models\vosk-model-small-en-us-0.15")
 MONGODB_URI     = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 MONGODB_DB      = os.getenv("MONGODB_DB", "voice_door_unlock")
 MONGODB_COLL    = os.getenv("MONGODB_COLL", "family_admin")
+print(f"[INFO] Using Vosk model from: {VOSK_MODEL_PATH}")
 
 encoder = VoiceEncoder()
 
